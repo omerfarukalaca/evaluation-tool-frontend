@@ -1,4 +1,4 @@
-# evaluation-tool-frontend
+# Evaluation-Tool-Frontend
 
 > A Vue.js project
 
