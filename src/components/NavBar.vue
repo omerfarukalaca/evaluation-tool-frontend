@@ -4,7 +4,7 @@
       <div class="container">
         <div class="nav-wrapper">
           <div class="nav-content">
-            <router-link to="">
+            <router-link to="/">
               <span>Agent DSML Evaluation Tool</span>
             </router-link>
             <ul id="nav-mobile" class="right hide-on-med-and-down">

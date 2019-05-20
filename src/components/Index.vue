@@ -15,7 +15,9 @@
 </template>
 
 <script>
-import db from "@/firebase/init";
+import firebaseApp from "@/firebase/init";
+const db = firebaseApp.firestore();
+const storage = firebaseApp.storage();
 
 export default {
   name: "Index",

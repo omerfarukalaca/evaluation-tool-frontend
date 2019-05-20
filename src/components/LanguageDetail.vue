@@ -1,19 +1,25 @@
 <template>
   <div class="language-detail container">
-    <h5>Language Detail {{language.name}}</h5>
+    <h5 v-if="language">Language Detail {{language.name}}</h5>
+    <router-link :to="{name: 'Evaluate', params: {id: language.id}} ">
+      <a class="waves-effect waves-light btn-large">
+        <i class="material-icons right">assignment</i>Evaluate
+      </a>
+    </router-link>
   </div>
 </template>
-
 <script>
-import db from "@/firebase/init";
+import firebaseApp from "@/firebase/init";
+const db = firebaseApp.firestore();
+const storage = firebaseApp.storage();
 
 export default {
   name: "LanguageDetail",
   data() {
-    return{
-        id: this.$route.params.id,
-        language: null
-    }
+    return {
+      id: this.$route.params.id,
+      language: null
+    };
   },
   created() {
     let ref = db.collection("languages").where("id", "==", this.id);
