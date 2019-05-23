@@ -394,7 +394,7 @@
                     class="validate"
                     min="1"
                     max="240"
-                    v-model="developmentTimes.problemAnalysis"
+                    v-model="developmentData.developmentTimes.problemAnalysis"
                     v-on:keypress="isNumber($event)"
                     required
                   >
@@ -409,7 +409,7 @@
                     class="validate"
                     min="1"
                     max="240"
-                    v-model="developmentTimes.modellingDesign"
+                    v-model="developmentData.developmentTimes.modellingDesign"
                     v-on:keypress="isNumber($event)"
                     required
                   >
@@ -426,7 +426,7 @@
                     class="validate"
                     min="1"
                     max="240"
-                    v-model="developmentTimes.implementation"
+                    v-model="developmentData.developmentTimes.implementation"
                     v-on:keypress="isNumber($event)"
                     required
                   >
@@ -441,7 +441,7 @@
                     class="validate"
                     min="1"
                     max="240"
-                    v-model="developmentTimes.errorTesting"
+                    v-model="developmentData.developmentTimes.errorTesting"
                     v-on:keypress="isNumber($event)"
                     required
                   >
@@ -549,8 +549,34 @@
       <div class="card">
         <div class="survey container">
           <h4 class="left-align indigo-text">
-            <i class="material-icons">assessment</i> Quality Survey
+            <i class="material-icons">assessment</i>
+            Quality Survey
           </h4>
+          <div class="section">
+            <div class="row" v-for="norm in getNorms" :key="norm.id">
+              <div class="col s12">
+                <div class="field norm">
+                  <b>{{ norm.id }}-</b>
+                  {{ norm.norm }}
+                </div>
+                <p style="text-align: left;">
+                  <label v-for="choice in getChoices" :key="choice.id">
+                    <input
+                      class="with-gap"
+                      v-bind:name="norm.id"
+                      type="radio"
+                      v-bind:value="choice.id"
+                      v-model="results[norm.id]"
+                      multiple
+                      required
+                    >
+                    <span style="padding-left: 23px; margin-left: 20px">{{ choice.id }}</span>
+                  </label>
+                </p>
+                <div class="divider"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -563,17 +589,6 @@
         <button class="btn blue">Submit</button>
       </div>
     </form>
-
-    <!-- Modal Structure -->
-    <div id="modal" class="modal">
-      <div class="modal-content">
-        <h4>Modal Header</h4>
-        <p>A bunch of text</p>
-      </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-      </div>
-    </div>
     <br>
     <br>
     <br>
@@ -588,11 +603,157 @@ const db = firebaseApp.firestore();
 const storage = firebaseApp.storage();
 
 export default {
+  computed: {
+    getChoices() {
+      return [
+        {
+          id: 1,
+          mood: "Very Bad"
+        },
+        {
+          id: 2,
+          mood: "Bad"
+        },
+        {
+          id: 3,
+          mood: "Average"
+        },
+        {
+          id: 4,
+          mood: "Good"
+        },
+        {
+          id: 5,
+          mood: "Very Good"
+        }
+      ];
+    },
+    getNorms() {
+      return [
+        {
+          id: 1,
+          norm:
+            "All concepts and scenarios of the domain can be expressed in the Agent DSML (completeness)"
+        },
+        {
+          id: 2,
+          norm:
+            "Agent DSML is appropriate for the specific applications of the domain (e.g. to express an algorithm) (appropriateness)"
+        },
+        {
+          id: 3,
+          norm:
+            "The required amount of effort for understanding the language is small (comprehensibility)"
+        },
+        {
+          id: 4,
+          norm:
+            "The concepts and symbols of the language are easy to learn and remember (learnability)"
+        },
+        {
+          id: 5,
+          norm:
+            "Language has capability to help users achieve their tasks in a minimum number of steps"
+        },
+        {
+          id: 6,
+          norm:
+            "Users can recognize whether the Agent DSML is appropriate for their needs (likeability,userperception)"
+        },
+        {
+          id: 7,
+          norm:
+            "Agent DSML has attributes that make it easy to operate and control the language (operability)"
+        },
+        {
+          id: 8,
+          norm: "Agent DSML has symbols that are good-looking (attractiveness)"
+        },
+        {
+          id: 9,
+          norm:
+            "The language provides mechanisms for compactness of the representation of the program. (compactness)"
+        },
+        {
+          id: 10,
+          norm:
+            "Agent DSML protects users against making errors. The DSL avoids the user to make mistakes. (model checking)"
+        },
+        {
+          id: 11,
+          norm:
+            "Agent DSML includes right elements and correct relations between them (Agent DSML prevents the unexpected interactions between its elements) (correctness)"
+        },
+        {
+          id: 12,
+          norm: "A problem solving strategy can be mapped into a program easily"
+        },
+        {
+          id: 13,
+          norm:
+            "The Agent DSML that provides one and only one good way to express every concept of interest (unique)"
+        },
+        {
+          id: 14,
+          norm:
+            "Each Agent DSML construct is used to represent exactly one distinct concept in the domain (orthogonal)"
+        },
+        {
+          id: 15,
+          norm:
+            "The language constructs correspond to important domain concepts. Agent DSML does not include domain concepts that are not important."
+        },
+        {
+          id: 16,
+          norm: "Agent DSML does not contain conflicting elements."
+        },
+        {
+          id: 17,
+          norm:
+            "Agent DSML is at the right abstraction level such that it is not more complex or detailed than necessary"
+        },
+        {
+          id: 18,
+          norm:
+            "Using Agent DSML to develop models fits in the development process, since it is used as part of a development process with phases and roles."
+        },
+        {
+          id: 19,
+          norm:
+            "Agent DSML is compatible with the domain. Agent DMSL has capability to operate with other elements of the domain with no modification required to perform a specific application in the domain."
+        },
+        {
+          id: 20,
+          norm: "Agent DMSL make MAS development easier."
+        },
+        {
+          id: 21,
+          norm:
+            "Agent DSML is appropriate for BDI (Belief-Desire-Intention) agent development."
+        },
+        {
+          id: 22,
+          norm: "IDE of Agent DSML is easy to use."
+        },
+        {
+          id: 23,
+          norm:
+            "Agent DSML is powerful enough to model the general MAS structure."
+        },
+        {
+          id: 24,
+          norm:
+            "Agent DSML handles any encountered difficulties while using it."
+        }
+      ];
+    }
+  },
   name: "Evaluate",
   components: {},
   data() {
     return {
       id: this.$route.params.id,
+      results: [],
       validation: {
         emailValidation: null,
         consentValidation: null
@@ -610,25 +771,33 @@ export default {
           student: false,
           researcher: false,
           worker: false
-        },
-
-        modellingArtifact: File,
-        generatedProject: File,
-        fullProject: File
+        }
       },
-      developmentTimes: {
-        problemAnaylysis: "",
-        modellingDesign: "",
-        implementation: "",
-        errorTesting: ""
-      }
+      developmentData: {
+        developmentTimes: {
+          problemAnalysis: "",
+          modellingDesign: "",
+          implementation: "",
+          errorTesting: ""
+        },
+        zips: {
+          modellingArtifact: File,
+          generatedProject: File,
+          fullProject: File
+        }
+      },
+      modellingURL: "OK",
+      generatedURL: "OK",
+      fullURL: "OK",
     };
   },
   methods: {
     AddPersonalDataToFirestore() {
+      console.log(this.results.toString()),
       //PERSONAL DATA
       db.collection("personal_datas")
         .add({
+          created_at: Date.now(),
           evaluate_language: this.language.id,
           consent: this.personalData.consent,
           email: this.personalData.email,
@@ -640,12 +809,16 @@ export default {
           occupation: {
             student: this.personalData.occupation.student,
             researcher: this.personalData.occupation.researcher,
-            worker: this.personalData.occupation.worker
-          }
+            worker: this.personalData.occupation.worker,
+          },
+          results: this.results.toString(),
         })
         .then(() => {
           //this.$router.push({ name: "Index" });
-          console.log(email + "'s personal data successfully added firestore");
+          console.log(
+            this.personalData.email +
+              "'s personal data successfully added firestore"
+          );
         })
         .catch(err => {
           console.log(err);
@@ -659,13 +832,14 @@ export default {
             "/" +
             this.personalData.email +
             "/MA/" +
-            this.modellingArtifact.name
+            this.developmentData.zips.modellingArtifact.name
         )
-        .put(this.modellingArtifact)
+        .put(this.developmentData.zips.modellingArtifact)
         .then(() => {
           //this.$router.push({ name: "Index" });
           console.log(
-            email + "'s modelling project files successfully added storage"
+            this.personalData.email +
+              "'s modelling project files successfully added storage"
           );
         })
         .catch(err => {
@@ -677,13 +851,14 @@ export default {
             "/" +
             this.personalData.email +
             "/GP/" +
-            this.generatedProject.name
+            this.developmentData.zips.generatedProject.name
         )
-        .put(this.generatedProject)
+        .put(this.developmentData.zips.generatedProject)
         .then(() => {
           //this.$router.push({ name: "Index" });
           console.log(
-            email + "'s generated project files successfully added storage"
+            this.personalData.email +
+              "'s generated project files successfully added storage"
           );
         })
         .catch(err => {
@@ -695,13 +870,56 @@ export default {
             "/" +
             this.personalData.email +
             "/FP/" +
-            this.fullProject.name
+            this.developmentData.zips.fullProject.name
         )
-        .put(this.fullProject)
+        .put(this.developmentData.zips.fullProject)
         .then(() => {
           //this.$router.push({ name: "Index" });
           console.log(
-            email + "'s full project files successfully added storage"
+            this.personalData.email +
+              "'s full project files successfully added storage"
+          );
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
+    AddDevelopmentDataToFirestore() {
+      //DEVELOPMENT DATA
+      db.collection("development_datas")
+        .add({
+          evaluate_language: this.language.id,
+          email: this.personalData.email,
+          developmentTimes: {
+            problemAnalysis: parseInt(
+              this.developmentData.developmentTimes.problemAnalysis,
+              10
+            ),
+            modellingDesign: parseInt(
+              this.developmentData.developmentTimes.modellingDesign,
+              10
+            ),
+            implementation: parseInt(
+              this.developmentData.developmentTimes.implementation,
+              10
+            ),
+            errorTesting: parseInt(
+              this.developmentData.developmentTimes.errorTesting,
+              10
+            )
+          },
+          zips: {
+            modellingArtifact: this.developmentData.zips.modellingArtifact.name,
+            generatedProject: this.developmentData.zips.generatedProject.name,
+            fullProject: this.developmentData.zips.fullProject.name
+          }
+        })
+        .then(() => {
+          //this.$router.push({ name: "Index" });
+          console.log(
+            this.personalData.email +
+              "'s development data successfully added firestore"
           );
         })
         .catch(err => {
@@ -711,9 +929,11 @@ export default {
 
     AddEvaluation() {
       if (this.personalData.email && this.personalData.consent) {
-        this.AddCaseStudyFilesToStorage();
         this.AddPersonalDataToFirestore();
+        this.AddDevelopmentDataToFirestore();
+        this.AddCaseStudyFilesToStorage();
         //this.$(".modal").openModal()
+        this.GeneratePDF();
         this.$router.push({ name: "Index" });
       } else {
         if (!this.personalData.email)
@@ -724,14 +944,238 @@ export default {
       }
     },
 
+    SetDownloadUrls() {
+      console.log("SerURLS");
+          storage
+        .ref(
+          this.language.id +
+            "/" +
+            this.personalData.email +
+            "/MA/" +
+            this.developmentData.zips.modellingArtifact.name
+        )
+        .getDownloadURL()
+        .then(function(downloadURL) {
+          this.modellingURL = downloadURL;
+          console.log(downloadURL);
+        });
+
+      storage
+        .ref(
+          this.language.id +
+            "/" +
+            this.personalData.email +
+            "/GP/" +
+            this.developmentData.zips.generatedProject.name
+        )
+        .getDownloadURL()
+        .then(function(downloadURL) {
+          this.generatedURL = downloadURL;
+          console.log(downloadURL);
+        });
+
+      storage
+        .ref(
+          this.language.id +
+            "/" +
+            this.personalData.email +
+            "/FP/" +
+            this.developmentData.zips.fullProject.name
+        )
+        .getDownloadURL()
+        .then(function(downloadURL) {
+          this.fullURL = downloadURL;
+          console.log(downloadURL);
+        });
+    },
+
+    GeneratePDF() {
+      // Don't forget, that there are CORS-Restrictions. So if you want to run it without a Server in your Browser you need to transform the image to a dataURL
+      // Use http://dataurl.net/#dataurlmaker
+      console.log("GeneratePDF");
+      var doc = new jsPDF();
+      doc.setFontSize(20);
+      doc.setFontStyle("bold");
+      doc.text(20, 20, "Evaluation Form - " + this.language.name);
+      doc.setFontSize(16);
+      doc.text(20, 30, "Personal Data");
+      doc.setFontStyle("normal");
+      doc.setFontSize(12);
+      doc.text(20, 38, "E-mail : " + this.personalData.email);
+      doc.text(20, 43, "Gender : " + this.personalData.gender);
+      doc.text(20, 48, "Age : " + this.personalData.age);
+      doc.text(20, 53, "Completed Education : " + this.personalData.education);
+      doc.text(
+        20,
+        58,
+        "Previous Experience With MAS : " + this.personalData.experience
+      );
+      var student = "";
+      var researcher = "";
+      var worker = "";
+      if (this.personalData.occupation.student) {
+        student = "Student, ";
+      }
+      if (this.personalData.occupation.researcher) {
+        researcher = "Researcher, ";
+      }
+      if (this.personalData.occupation.worker) {
+        worker = "Worker, ";
+      }
+      doc.text(20, 63, "Current occupation : " + student + researcher + worker);
+      doc.setFontSize(16);
+      doc.setFontStyle("bold");
+      doc.text(20, 73, "Development Times");
+      doc.setFontStyle("normal");
+      doc.setFontSize(12);
+      doc.text(
+        20,
+        81,
+        "Problem Analysis : " +
+          this.developmentData.developmentTimes.problemAnalysis +
+          " min"
+      );
+      doc.text(
+        20,
+        86,
+        "Modelling-Design : " +
+          this.developmentData.developmentTimes.modellingDesign +
+          " min"
+      );
+      doc.text(
+        20,
+        91,
+        "Implementation : " +
+          this.developmentData.developmentTimes.implementation +
+          " min"
+      );
+      doc.text(
+        20,
+        96,
+        "Error Detection/ Testing : " +
+          this.developmentData.developmentTimes.errorTesting +
+          " min"
+      );
+      doc.setFontSize(16);
+      doc.setFontStyle("bold");
+      doc.text(20, 106, "Project Files Uploads");
+      doc.setFontStyle("normal");
+      doc.setFontSize(12);
+      doc.text(20, 114, "Modelling Artifacts :");
+      doc.text(20, 119, this.modellingURL);
+      doc.text(20, 124, "Generated Project :");
+      doc.text(20, 129, this.generatedURL);
+      doc.text(20, 134, "Full Project :");
+      doc.text(20, 139, this.fullURL);
+      doc.setFontSize(16);
+      doc.setFontStyle("bold");
+      doc.text(20, 149, "Quality Survey");
+      doc.setFontStyle("normal");
+      doc.setFontSize(12);
+      doc.text(
+        20,
+        157,
+        "Functional Suitability (1-2) : " +
+          this.results[1] +
+          " - " +
+          this.results[2]
+      );
+      doc.text(
+        20,
+        162,
+        "Usability (3-9) : " +
+          this.results[3] +
+          " - " +
+          this.results[4] +
+          " - " +
+          this.results[5] +
+          " - " +
+          this.results[6] +
+          " - " +
+          this.results[7] +
+          " - " +
+          this.results[8] +
+          " - " +
+          this.results[9]
+      );
+      doc.text(
+        20,
+        167,
+        "Reliability (10-11) : " + this.results[10] + " - " + this.results[11]
+      );
+      doc.text(
+        20,
+        172,
+        "Expressiveness (12-17) : " +
+          this.results[12] +
+          " - " +
+          this.results[13] +
+          " - " +
+          this.results[14] +
+          " - " +
+          this.results[15] +
+          " - " +
+          this.results[16] +
+          " - " +
+          this.results[17]
+      );
+      doc.text(
+        20,
+        177,
+        "Compatibility (18-19) : " + this.results[18] + " - " + this.results[19]
+      );
+      doc.text(
+        20,
+        182,
+        "MAS Development (20-24) : " +
+          this.results[20] +
+          " - " +
+          this.results[21] +
+          " - " +
+          this.results[22] +
+          " - " +
+          this.results[23] +
+          " - " +
+          this.results[24]
+      );
+
+      doc.text(20, 190, "Timestamp : " + Date.now());
+      doc.text(20, 195, "Agent DSML : " + this.language.name);
+      doc.text(20, 200, "Case Study : ");
+
+      doc.setFontSize(12);
+      doc.text(
+        30,
+        220,
+        "Thank you very much for your participation.The answers you provide are listed above. "
+      );
+      doc.text(
+        20,
+        225,
+        "This is a project being developed. Therefore, as a precaution, please send email this document "
+      );
+      doc.text(20, 230, "to the following email addresses: ");
+      doc.text(20, 240, "Assoc. Prof. Dr. Geylani Kardas : geylani@gmail.com");
+      doc.text(20, 245, "Ömer Faruk Alaca : omerfarukalaca@gmail.com ");
+
+      doc.setFontSize(9);
+      doc.text(20, 260, Date());
+      doc.text(
+        20,
+        265,
+        "Ege University International Computer Graduate School "
+      );
+
+      doc.save(this.personalData.email + "-" + Date.now() + ".pdf");
+    },
     detectMA(fileList) {
-      this.modellingArtifact = fileList[0];
+      this.developmentData.zips.modellingArtifact = fileList[0];
     },
     detectGP(fileList) {
-      this.generatedProject = fileList[0];
+      this.developmentData.zips.generatedProject = fileList[0];
     },
     detectFP(fileList) {
-      this.fullProject = fileList[0];
+      this.developmentData.zips.fullProject = fileList[0];
     },
     isNumber: function(evt) {
       evt = evt ? evt : window.event;
@@ -753,7 +1197,6 @@ export default {
       snapshot.forEach(doc => {
         this.language = doc.data();
         this.language.id = doc.id;
-        //$('#modal1').modal({ show: false})
       });
     });
   }
