@@ -552,6 +552,26 @@
             <i class="material-icons">assessment</i>
             Quality Survey
           </h4>
+          <p>
+            Please evaluate Agent DSML in terms of the following norms. You can give a score between 1 and 5 to the norms. 
+          </p>
+          <ol>
+            <li>
+                Very Bad
+            </li>
+            <li>
+                Bad
+            </li>
+            <li>
+                Average
+            </li>
+            <li>
+                Good
+            </li>
+            <li>
+                Very Good
+            </li>
+          </ol>
           <div class="section">
             <div class="row" v-for="norm in getNorms" :key="norm.id">
               <div class="col s12">

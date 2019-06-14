@@ -7,7 +7,7 @@
             <router-link to="/">
               <span>Agent DSML Evaluation Tool</span>
             </router-link>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <ul id="nav-mobile" class="right">
               <li>
                 <router-link to="/languages">
                     <span>Languages</span>
