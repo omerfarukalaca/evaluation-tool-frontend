@@ -35,7 +35,8 @@ export default {
         snapshot.forEach(doc => {
           let language = doc.data();
           language.id = doc.id;
-          this.languages.push(language);
+          if(doc.data().is_active == true)
+            this.languages.push(language);
         });
       });
   }
