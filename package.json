@@ -10,15 +10,18 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "apexcharts": "^3.8.1",
     "bootstrap": "^4.3.1",
     "firebase": "^6.0.2",
     "materialize-css": "^1.0.0-rc.2",
     "vue": "^2.5.2",
+    "vue-apexcharts": "^1.4.0",
     "vue-jquery": "^1.0.6",
     "vue-material-checkbox": "^1.2.1",
     "vue-router": "^3.0.1",
     "vue-stepper": "^1.4.2",
-    "vuelidate": "^0.7.4"
+    "vuelidate": "^0.7.4",
+    "vuesax": "^3.8.77"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -54,6 +57,7 @@
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
+    "vue2-collapse": "^1.0.15",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",

@@ -3,7 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueApexCharts from 'vue-apexcharts'
+import Vuesax from 'vuesax'
+import 'vuesax/dist/vuesax.css' //Vuesax styles
 
+Vue.use(Vuesax)
+Vue.component('apexchart', VueApexCharts)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
