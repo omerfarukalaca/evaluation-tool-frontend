@@ -9,8 +9,8 @@
             </router-link>
             <ul id="nav-mobile" class="right">
               <li>
-                <router-link to="/languages">
-                    <span>Languages</span>
+                <router-link to="/">
+                    <span></span>
                 </router-link>
               </li>
             </ul>
