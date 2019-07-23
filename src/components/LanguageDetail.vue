@@ -185,6 +185,7 @@
                   <br />
                   <br />
                   <br />
+                  <br />
                 </template>
               </vs-table>
             </vs-collapse-item>
@@ -243,7 +244,7 @@
                     <div slot="header">
                       <h5 style="text-align: center;">Average Point</h5>
                       <h4 style="text-align: center;">
-                        <b>3.21 / 5</b>
+                        <b>{{this.language.surveyAverageScores[0]}} / 5</b>
                       </h4>
                     </div>
                   </vs-card>
@@ -268,6 +269,14 @@
                         height="350"
                         :options="surveyChartOptions"
                         :series="surveySeries(100)"
+                      />
+                    </div>
+                    <div class="con-tab-ejemplo">
+                      <apexchart
+                        type="bar"
+                        height="350"
+                        :options="surveyQueChartOptions(100)"
+                        :series="surveyQueChartSeries(100)"
                       />
                     </div>
 
@@ -299,6 +308,14 @@
                         :series="surveySeries(200)"
                       />
                     </div>
+                    <div class="con-tab-ejemplo">
+                      <apexchart
+                        type="bar"
+                        height="350"
+                        :options="surveyQueChartOptions(200)"
+                        :series="surveyQueChartSeries(200)"
+                      />
+                    </div>
 
                     <vs-collapse>
                       <div v-for="(item, index) in norms.Usability.norms" :key="index">
@@ -326,6 +343,14 @@
                         height="350"
                         :options="surveyChartOptions"
                         :series="surveySeries(300)"
+                      />
+                    </div>
+                    <div class="con-tab-ejemplo">
+                      <apexchart
+                        type="bar"
+                        height="350"
+                        :options="surveyQueChartOptions(300)"
+                        :series="surveyQueChartSeries(300)"
                       />
                     </div>
 
@@ -357,6 +382,14 @@
                         :series="surveySeries(400)"
                       />
                     </div>
+                    <div class="con-tab-ejemplo">
+                      <apexchart
+                        type="bar"
+                        height="350"
+                        :options="surveyQueChartOptions(400)"
+                        :series="surveyQueChartSeries(400)"
+                      />
+                    </div>
 
                     <vs-collapse>
                       <div v-for="(item, index) in norms.Expressiveness.norms" :key="index">
@@ -386,6 +419,14 @@
                         :series="surveySeries(500)"
                       />
                     </div>
+                    <div class="con-tab-ejemplo">
+                      <apexchart
+                        type="bar"
+                        height="350"
+                        :options="surveyQueChartOptions(500)"
+                        :series="surveyQueChartSeries(500)"
+                      />
+                    </div>
 
                     <vs-collapse>
                       <div v-for="(item, index) in norms.Compatibility.norms" :key="index">
@@ -413,6 +454,14 @@
                         height="350"
                         :options="surveyChartOptions"
                         :series="surveySeries(600)"
+                      />
+                    </div>
+                    <div class="con-tab-ejemplo">
+                      <apexchart
+                        type="bar"
+                        height="350"
+                        :options="surveyQueChartOptions(600)"
+                        :series="surveyQueChartSeries(600)"
                       />
                     </div>
 
@@ -662,13 +711,6 @@ export default {
           opacity: 1
         }
       },
-
-      radarSeries: [
-        {
-          name: "Average Point",
-          data: [3.5, 3.13, 3.13, 3.14, 3.28, 3.06]
-        }
-      ],
       radarOptions: {
         labels: [
           "Functional Suitability",
@@ -688,6 +730,10 @@ export default {
           zoom: {
             enabled: true
           }
+        },
+        title: {
+          text: "Point Perspective",
+          align: "left"
         },
         responsive: [
           {
@@ -716,7 +762,7 @@ export default {
         },
         yaxis: {
           title: {
-            text: "Person"
+            text: "Number of Answers"
           }
         },
         legend: {
@@ -755,6 +801,21 @@ export default {
     });
   },
   computed: {
+    radarSeries() {
+      return [
+        {
+          name: "Average Point",
+          data: [
+            this.language.surveyAverageScores[1],
+            this.language.surveyAverageScores[2],
+            this.language.surveyAverageScores[3],
+            this.language.surveyAverageScores[4],
+            this.language.surveyAverageScores[5],
+            this.language.surveyAverageScores[6]
+          ]
+        }
+      ];
+    },
     benchmarkingSeries() {
       return [
         this.language.famlComparison.averagePer,
@@ -940,16 +1001,188 @@ export default {
 
       var data = [
         {
-          name: "Hotel Reservation Project",
+          name: "Hotel Reservation System",
           data: this.language.caseStudies[1].surveyResults[normValue]
         },
         {
-          name: "Garbage Collector Project",
+          name: "Garbage Collector System",
           data: this.language.caseStudies[0].surveyResults[normValue]
         }
       ];
 
       return data;
+    },
+
+    surveyQueChartOptions(index) {
+      var activeCategories = [];
+      if (index == 100) {
+        activeCategories = ["1", "2"];
+      } else if (index == 200) {
+        activeCategories = ["3", "4", "5", "6", "7", "8", "9"];
+      } else if (index == 300) {
+        activeCategories = ["10", "11"];
+      } else if (index == 400) {
+        activeCategories = ["12", "13", "14", "15", "16", "17"];
+      } else if (index == 500) {
+        activeCategories = ["18", "19"];
+      } else if (index == 600) {
+        activeCategories = ["20", "21", "22", "23", "24"];
+      }
+
+      return {
+        chart: {
+          stacked: false,
+          toolbar: {
+            show: true
+          },
+          zoom: {
+            enabled: true
+          }
+        },
+        title: {
+          text: "Sub Characteristic Perspective",
+          align: "left"
+        },
+        annotations: {
+          yaxis: [
+            {
+              y: this.surveyQueChartAverage(index),
+              borderColor: "#FF4560",
+              label: {
+                borderColor: "#FF4560",
+                offsetY: 0,
+                style: {
+                  color: "#fff",
+                  background: "#FF4560"
+                },
+                text:
+                  "Average Points : " +
+                  this.surveyQueChartAverage(index).toString()
+              }
+            }
+          ]
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: "bottom",
+                offsetX: -10,
+                offsetY: 0
+              }
+            }
+          }
+        ],
+        plotOptions: {
+          bar: {
+            horizontal: false
+          }
+        },
+
+        xaxis: {
+          type: "string",
+          categories: activeCategories,
+          title: {
+            text: "Sub Characteristic"
+          }
+        },
+        yaxis: {
+          title: {
+            text: "Average Score"
+          }
+        },
+        legend: {
+          position: "right",
+          offsetY: 40
+        },
+        fill: {
+          opacity: 1
+        }
+      };
+    },
+
+    surveyQueChartSeries(index) {
+      var loop;
+      var position;
+      if (index == 100) {
+        loop = 2;
+        position = 1;
+      } else if (index == 200) {
+        loop = 7;
+        position = 3;
+      } else if (index == 300) {
+        loop = 2;
+        position = 10;
+      } else if (index == 400) {
+        loop = 6;
+        position = 12;
+      } else if (index == 500) {
+        loop = 2;
+        position = 18;
+      } else if (index == 600) {
+        loop = 5;
+        position = 20;
+      }
+
+      var hotelRez = [];
+      var garbageCol = [];
+      var all = [];
+
+      for (var i = 1; i <= loop; i++) {
+        var normValue = "n" + position;
+        hotelRez[i - 1] = this.calculateAverageForNorm(0, normValue);
+        garbageCol[i - 1] = this.calculateAverageForNorm(1, normValue);
+        all[i - 1] = (hotelRez[i - 1] + garbageCol[i - 1]) / 2;
+        position++;
+      }
+
+      var data = [
+        {
+          name: "Hotel Reservation System",
+          data: hotelRez
+        },
+        {
+          name: "Garbage Collector System",
+          data: garbageCol
+        },
+        {
+          name: "All Case Studies",
+          data: all
+        }
+      ];
+
+      return data;
+    },
+
+    calculateAverageForNorm(caseStudy, normValue) {
+      var average = 0;
+      var results = this.language.caseStudies[caseStudy].surveyResults[
+        normValue
+      ];
+      for (var i = 0; i < 5; i++) {
+        console.log(this.language.caseStudies[caseStudy].name + results);
+        average = average + results[i] * (i + 1);
+      }
+      return average / 8;
+    },
+
+    surveyQueChartAverage(index) {
+      var averageScore;
+      if (index == 100) {
+        averageScore = this.language.surveyAverageScores[1];
+      } else if (index == 200) {
+        averageScore = this.language.surveyAverageScores[2];
+      } else if (index == 300) {
+        averageScore = this.language.surveyAverageScores[3];
+      } else if (index == 400) {
+        averageScore = this.language.surveyAverageScores[4];
+      } else if (index == 500) {
+        averageScore = this.language.surveyAverageScores[5];
+      } else if (index == 600) {
+        averageScore = this.language.surveyAverageScores[6];
+      }
+      return averageScore;
     }
   }
 };
