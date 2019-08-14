@@ -773,6 +773,7 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
+      caseStudy: this.$route.params.caseStudy,
       results: [],
       validation: {
         emailValidation: null,
@@ -819,6 +820,7 @@ export default {
         .add({
           created_at: Date.now(),
           evaluate_language: this.language.id,
+          caseStudy: this.caseStudy,
           consent: this.personalData.consent,
           email: this.personalData.email,
           gender: this.personalData.gender,
@@ -910,6 +912,7 @@ export default {
       db.collection("development_datas")
         .add({
           evaluate_language: this.language.id,
+          caseStudy: this.caseStudy,
           email: this.personalData.email,
           developmentTimes: {
             problemAnalysis: parseInt(

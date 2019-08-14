@@ -21,10 +21,10 @@
                     <vs-table hoverFlat="false" :data="language">
                       <template slot-scope="{data}">
                         <vs-tr style="font-size:15px;">
-                          <vs-td>
+                          <vs-td width="30%">
                             <b>Language Name :</b>
                           </vs-td>
-                          <vs-td :data="data.name">{{data.name}}</vs-td>
+                          <vs-td width="70%" :data="data.name">{{data.name}}</vs-td>
                         </vs-tr>
                         <vs-tr style="font-size:15px;">
                           <vs-td>

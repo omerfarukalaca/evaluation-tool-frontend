@@ -4,6 +4,7 @@ import Index from '@/components/Index'
 import Languages from '@/components/Languages'
 import LanguageDetail from '@/components/LanguageDetail'
 import Evaluate from '@/components/Evaluate'
+import AddLanguage from '@/components/AddLanguage'
 
 Vue.use(Router)
 
@@ -25,9 +26,14 @@ export default new Router({
       component: LanguageDetail
     },
     {
-      path: '/evaluate/:id',
+      path: '/evaluate/:id/case-study/:caseStudy',
       name: 'Evaluate',
-      component: Evaluate
+      component: Evaluate,
+    },
+    {
+      path: '/add-language',
+      name: 'AddLanguage',
+      component: AddLanguage
     }
   ]
 })

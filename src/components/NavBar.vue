@@ -9,8 +9,8 @@
             </router-link>
             <ul id="nav-mobile" class="right">
               <li>
-                <router-link to="/">
-                    <span></span>
+                <router-link to="/add-language">
+                    <span>Add New Agent DSML</span>
                 </router-link>
               </li>
             </ul>

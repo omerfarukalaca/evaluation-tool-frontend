@@ -50,27 +50,34 @@
                     <br />
                     <br />
                   </div>
-                  <div class="col s6">
-                    <div class="con-select-example">
-                      <vs-select class="selectExample" label="Case Study" v-model="caseStudySelect">
-                        <vs-select-item
-                          :key="index"
-                          :value="item.value"
-                          :text="item.text"
-                          v-for="item,index in caseStudiesOptions"
-                        />
-                      </vs-select>
+                  <form @submit.prevent="GoEvaluation">
+                    <div class="col s6">
+                      <div class="con-select-example">
+                        <vs-select
+                          class="selectExample"
+                          label="Case Study"
+                          v-model="caseStudySelect"
+                        >
+                          <vs-select-item
+                            :key="index"
+                            :value="item.value"
+                            :text="item.text"
+                            v-for="item,index in caseStudiesOptions"
+                          />
+                        </vs-select>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col s6">
-                    <div style="text-align: left;">
-                      <vs-button color="primary" type="border">
-                        <router-link
-                          :to="{name: 'Evaluate', params: {id: language.id}} "
-                        >Start Evaluation</router-link>
-                      </vs-button>
+                    <div class="col s6">
+                      <div style="text-align: left;">
+                        <p
+                          v-if="this.validation.caseStudy"
+                          class="red-text"
+                        >{{validation.caseStudy}}</p>
+                        <button class="btn blue">Submit</button>
+                        
+                      </div>
                     </div>
-                  </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -547,65 +554,17 @@ export default {
 
   data() {
     return {
+      validation: {
+        caseStudy: null
+      },
       caseStudySelect: null,
+      caseStudies: null,
       id: this.$route.params.id,
       language: null,
       faml: null,
       norms: null,
-      caseStudiesOptions: [
-        { text: "Garbage Collector", value: "Garbage Collector" },
-        { text: "Hotel Reservation System", value: "Hotel Reservation System" }
-      ],
       benchmarkingOptions: {
         labels: ["Supported", "Not Supported"]
-      },
-      generationOptions: {
-        chart: {
-          stacked: true,
-          stackType: "100%",
-          toolbar: {
-            show: true
-          },
-          zoom: {
-            enabled: true
-          }
-        },
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              legend: {
-                position: "bottom",
-                offsetX: -10,
-                offsetY: 0
-              }
-            }
-          }
-        ],
-        plotOptions: {
-          bar: {
-            horizontal: true
-          }
-        },
-
-        xaxis: {
-          type: "string",
-          categories: [
-            "Garbage Collector System",
-            "Hotel Reservation System",
-            "All Case Studies"
-          ],
-          title: {
-            text: "LoC"
-          }
-        },
-        legend: {
-          position: "right",
-          offsetY: 40
-        },
-        fill: {
-          opacity: 1
-        }
       },
       chartOptions: {
         chart: {
@@ -645,62 +604,6 @@ export default {
           ],
           title: {
             text: "Minutes"
-          }
-        },
-        legend: {
-          position: "right",
-          offsetY: 40
-        },
-        fill: {
-          opacity: 1
-        }
-      },
-
-      modelChartOptions: {
-        chart: {
-          stacked: false,
-          toolbar: {
-            show: true
-          },
-          zoom: {
-            enabled: true
-          }
-        },
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              legend: {
-                position: "bottom",
-                offsetX: -10,
-                offsetY: 0
-              }
-            }
-          }
-        ],
-        plotOptions: {
-          bar: {
-            horizontal: true
-          }
-        },
-
-        xaxis: {
-          type: "string",
-          categories: [
-            "Actor",
-            "Action",
-            "Percept",
-            "Role",
-            "Data",
-            "Goal",
-            "Scenario",
-            "Agent",
-            "Message",
-            "Capability",
-            "Plan"
-          ],
-          title: {
-            text: "Entity Count"
           }
         },
         legend: {
@@ -816,6 +719,123 @@ export default {
         }
       ];
     },
+    caseStudiesOptions() {
+      var caseStudies = [];
+      for (let index = 0; index < this.language.caseStudies.length; index++) {
+        caseStudies[index] = {
+          text: this.language.caseStudies[index].name,
+          value: this.language.caseStudies[index].name
+        };
+      }
+      return caseStudies;
+    },
+
+    generationOptions() {
+      var caseStudyTexts = [];
+
+      for (let index = 0; index < this.language.caseStudies.length; index++) {
+        caseStudyTexts[index] = [this.language.caseStudies[index].name];
+      }
+
+      caseStudyTexts[this.language.caseStudies.length] = "All Case Studies";
+
+      return {
+        chart: {
+          stacked: true,
+          stackType: "100%",
+          toolbar: {
+            show: true
+          },
+          zoom: {
+            enabled: true
+          }
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: "bottom",
+                offsetX: -10,
+                offsetY: 0
+              }
+            }
+          }
+        ],
+        plotOptions: {
+          bar: {
+            horizontal: true
+          }
+        },
+
+        xaxis: {
+          type: "string",
+          categories: caseStudyTexts,
+          title: {
+            text: "LoC"
+          }
+        },
+        legend: {
+          position: "right",
+          offsetY: 40
+        },
+        fill: {
+          opacity: 1
+        }
+      };
+    },
+
+    modelChartOptions() {
+      var entityTexts = [];
+
+      for (let index = 0; index < this.language.entites.length; index++) {
+        entityTexts[index] = [this.language.entites[index]];
+      }
+      return {
+        chart: {
+          stacked: false,
+          toolbar: {
+            show: true
+          },
+          zoom: {
+            enabled: true
+          }
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: "bottom",
+                offsetX: -10,
+                offsetY: 0
+              }
+            }
+          }
+        ],
+        plotOptions: {
+          bar: {
+            horizontal: true
+          }
+        },
+
+        xaxis: {
+          type: "string",
+          categories: entityTexts,
+          title: {
+            text: "Entity Count"
+          }
+        },
+        legend: {
+          position: "right",
+          offsetY: 40
+        },
+        fill: {
+          opacity: 1
+        }
+      };
+    },
+
     benchmarkingSeries() {
       return [
         this.language.famlComparison.averagePer,
@@ -823,164 +843,122 @@ export default {
       ];
     },
     developmentSeries() {
-      return [
-        {
-          name: this.language.caseStudies[0].name,
-          data: [
-            this.language.caseStudies[0].developmentTimes.times.problemAnalysis,
-            this.language.caseStudies[0].developmentTimes.times.modelling,
-            this.language.caseStudies[0].developmentTimes.times.implementation,
-            this.language.caseStudies[0].developmentTimes.times.errorDetection
-          ]
-        },
-        {
-          name: this.language.caseStudies[1].name,
-          data: [
-            this.language.caseStudies[1].developmentTimes.times.problemAnalysis,
-            this.language.caseStudies[1].developmentTimes.times.modelling,
-            this.language.caseStudies[1].developmentTimes.times.implementation,
-            this.language.caseStudies[1].developmentTimes.times.errorDetection
-          ]
-        },
-        {
-          name: "All Case Studies",
-          data: [
-            (this.language.caseStudies[0].developmentTimes.times
-              .problemAnalysis +
-              this.language.caseStudies[1].developmentTimes.times
-                .problemAnalysis) /
-              2,
-            (this.language.caseStudies[0].developmentTimes.times.modelling +
-              this.language.caseStudies[1].developmentTimes.times.modelling) /
-              2,
-            (this.language.caseStudies[0].developmentTimes.times
-              .implementation +
-              this.language.caseStudies[1].developmentTimes.times
-                .implementation) /
-              2,
-            (this.language.caseStudies[0].developmentTimes.times
-              .errorDetection +
-              this.language.caseStudies[1].developmentTimes.times
-                .errorDetection) /
-              2
-          ]
-        }
-      ];
+      var developmentSeries = [];
+      var problemAnalysis = 0;
+      var modelling = 0;
+      var implementation = 0;
+      var errorDetection = 0;
+
+      for (let index = 0; index < this.language.caseStudies.length; index++) {
+        (problemAnalysis += this.language.caseStudies[index].developmentTimes
+          .times.problemAnalysis),
+          (modelling += this.language.caseStudies[index].developmentTimes.times
+            .modelling),
+          (implementation += this.language.caseStudies[index].developmentTimes
+            .times.implementation),
+          (errorDetection += this.language.caseStudies[index].developmentTimes
+            .times.errorDetection),
+          (developmentSeries[index] = {
+            name: this.language.caseStudies[index].name,
+            data: [
+              this.language.caseStudies[index].developmentTimes.times
+                .problemAnalysis,
+              this.language.caseStudies[index].developmentTimes.times.modelling,
+              this.language.caseStudies[index].developmentTimes.times
+                .implementation,
+              this.language.caseStudies[index].developmentTimes.times
+                .errorDetection
+            ]
+          });
+      }
+
+      developmentSeries[this.language.caseStudies.length] = {
+        name: "All Case Studies",
+        data: [
+          problemAnalysis / this.language.caseStudies.length,
+          modelling / this.language.caseStudies.length,
+          implementation / this.language.caseStudies.length,
+          errorDetection / this.language.caseStudies.length
+        ]
+      };
+      return developmentSeries;
     },
     generationSeries() {
-      const totalgenerated =
-        this.language.caseStudies[0].caseStudyAnalysis.LoC.generated +
-        this.language.caseStudies[1].caseStudyAnalysis.LoC.generated;
-      const totalhardCoded =
-        this.language.caseStudies[0].caseStudyAnalysis.LoC.hardCoded +
-        this.language.caseStudies[1].caseStudyAnalysis.LoC.hardCoded;
-      return [
+      var generatedArray = [];
+      var hardCodedArray = [];
+      var totalgenerated = 0;
+      var totalhardCoded = 0;
+      for (let index = 0; index < this.language.caseStudies.length; index++) {
+        totalgenerated += this.language.caseStudies[index].caseStudyAnalysis.LoC
+          .generated;
+        generatedArray[index] = this.language.caseStudies[
+          index
+        ].caseStudyAnalysis.LoC.generated;
+        totalhardCoded += this.language.caseStudies[index].caseStudyAnalysis.LoC
+          .hardCoded;
+        hardCodedArray[index] = this.language.caseStudies[
+          index
+        ].caseStudyAnalysis.LoC.hardCoded;
+      }
+
+      generatedArray[this.language.caseStudies.length] =
+        totalgenerated / this.language.caseStudies.length;
+      hardCodedArray[this.language.caseStudies.length] =
+        totalhardCoded / this.language.caseStudies.length;
+
+      var returnData = [
         {
           name: "Generated Code",
-          data: [
-            this.language.caseStudies[0].caseStudyAnalysis.LoC.generated,
-            this.language.caseStudies[1].caseStudyAnalysis.LoC.generated,
-            totalgenerated / 2
-          ]
+          data: generatedArray
         },
         {
           name: "Hard Coded by Developer",
-          data: [
-            this.language.caseStudies[0].caseStudyAnalysis.LoC.hardCoded,
-            this.language.caseStudies[1].caseStudyAnalysis.LoC.hardCoded,
-            totalhardCoded / 2
-          ]
+          data: hardCodedArray
         }
       ];
+
+      return returnData;
     },
     modelSeries() {
-      return [
-        {
-          name: this.language.caseStudies[0].name,
-          data: [
-            this.language.caseStudies[0].caseStudyAnalysis.modellingEntities[0],
-            this.language.caseStudies[0].caseStudyAnalysis.modellingEntities[1],
-            this.language.caseStudies[0].caseStudyAnalysis.modellingEntities[2],
-            this.language.caseStudies[0].caseStudyAnalysis.modellingEntities[3],
-            this.language.caseStudies[0].caseStudyAnalysis.modellingEntities[4],
-            this.language.caseStudies[0].caseStudyAnalysis.modellingEntities[5],
-            this.language.caseStudies[0].caseStudyAnalysis.modellingEntities[6],
-            this.language.caseStudies[0].caseStudyAnalysis.modellingEntities[7],
-            this.language.caseStudies[0].caseStudyAnalysis.modellingEntities[8],
-            this.language.caseStudies[0].caseStudyAnalysis.modellingEntities[9],
-            this.language.caseStudies[0].caseStudyAnalysis.modellingEntities[10]
-          ]
-        },
-        {
-          name: this.language.caseStudies[1].name,
-          data: [
-            this.language.caseStudies[1].caseStudyAnalysis.modellingEntities[0],
-            this.language.caseStudies[1].caseStudyAnalysis.modellingEntities[1],
-            this.language.caseStudies[1].caseStudyAnalysis.modellingEntities[2],
-            this.language.caseStudies[1].caseStudyAnalysis.modellingEntities[3],
-            this.language.caseStudies[1].caseStudyAnalysis.modellingEntities[4],
-            this.language.caseStudies[1].caseStudyAnalysis.modellingEntities[5],
-            this.language.caseStudies[1].caseStudyAnalysis.modellingEntities[6],
-            this.language.caseStudies[1].caseStudyAnalysis.modellingEntities[7],
-            this.language.caseStudies[1].caseStudyAnalysis.modellingEntities[8],
-            this.language.caseStudies[1].caseStudyAnalysis.modellingEntities[9],
-            this.language.caseStudies[1].caseStudyAnalysis.modellingEntities[10]
-          ]
-        },
-        {
-          name: "All Case Studies",
-          data: [
-            this.language.caseStudies[0].caseStudyAnalysis
-              .modellingEntities[0] +
-              this.language.caseStudies[1].caseStudyAnalysis
-                .modellingEntities[0],
-            this.language.caseStudies[0].caseStudyAnalysis
-              .modellingEntities[1] +
-              this.language.caseStudies[1].caseStudyAnalysis
-                .modellingEntities[1],
-            this.language.caseStudies[0].caseStudyAnalysis
-              .modellingEntities[2] +
-              this.language.caseStudies[1].caseStudyAnalysis
-                .modellingEntities[2],
-            this.language.caseStudies[0].caseStudyAnalysis
-              .modellingEntities[3] +
-              this.language.caseStudies[1].caseStudyAnalysis
-                .modellingEntities[3],
-            this.language.caseStudies[0].caseStudyAnalysis
-              .modellingEntities[4] +
-              this.language.caseStudies[1].caseStudyAnalysis
-                .modellingEntities[4],
-            this.language.caseStudies[0].caseStudyAnalysis
-              .modellingEntities[5] +
-              this.language.caseStudies[1].caseStudyAnalysis
-                .modellingEntities[5],
-            this.language.caseStudies[0].caseStudyAnalysis
-              .modellingEntities[6] +
-              this.language.caseStudies[1].caseStudyAnalysis
-                .modellingEntities[6],
-            this.language.caseStudies[0].caseStudyAnalysis
-              .modellingEntities[7] +
-              this.language.caseStudies[1].caseStudyAnalysis
-                .modellingEntities[7],
-            this.language.caseStudies[0].caseStudyAnalysis
-              .modellingEntities[8] +
-              this.language.caseStudies[1].caseStudyAnalysis
-                .modellingEntities[8],
-            this.language.caseStudies[0].caseStudyAnalysis
-              .modellingEntities[9] +
-              this.language.caseStudies[1].caseStudyAnalysis
-                .modellingEntities[9],
-            this.language.caseStudies[0].caseStudyAnalysis
-              .modellingEntities[10] +
-              this.language.caseStudies[1].caseStudyAnalysis
-                .modellingEntities[10]
-          ]
+      var returnData = [];
+      var totalData = [];
+      var tempData = [];
+
+      for (let index = 0; index < this.language.entites.length; index++) {
+        totalData[index] = 0;
+      }
+
+      for (let cs = 0; cs < this.language.caseStudies.length; cs++) {
+        for (let entity = 0; entity < this.language.entites.length; entity++) {
+          tempData[entity] = this.language.caseStudies[
+            cs
+          ].caseStudyAnalysis.modellingEntities[entity];
+          totalData[entity] += tempData[entity];
         }
-      ];
+        returnData[cs] = {
+          name: this.language.caseStudies[cs].name,
+          data: tempData
+        };
+        tempData = [];
+      }
+
+      returnData[this.language.caseStudies.length] = {
+        name: "All Case Studies",
+        data: totalData
+      };
+      return returnData;
     }
   },
 
   methods: {
+    GoEvaluation() {
+      if (this.caseStudySelect != null) {
+        this.$router.push({name: 'Evaluate', params: {id: this.language.id, caseStudy:this.caseStudySelect}});
+      } else {
+        if (this.caseStudySelect == null)
+          this.validation.caseStudy = "You must select a case study";
+      }
+    },
     surveySeries(index) {
       var normValue;
       if (index == 100) {
@@ -999,17 +977,17 @@ export default {
         normValue = "n" + index;
       }
 
-      var data = [
-        {
-          name: "Hotel Reservation System",
-          data: this.language.caseStudies[1].surveyResults[normValue]
-        },
-        {
-          name: "Garbage Collector System",
-          data: this.language.caseStudies[0].surveyResults[normValue]
-        }
-      ];
-
+      var data = [];
+      for (let index = 0; index < this.language.caseStudies.length; index++) {
+        data[index] = {
+          name: this.language.caseStudies[index].name,
+          data:
+            this.language.caseStudies[index].surveyResults == null
+              ? this.language.caseStudies[index].surveyResults[normValue]
+              : [0, 0, 0, 0, 0]
+        };
+      }
+      console.log(data.toString);
       return data;
     },
 
@@ -1125,46 +1103,58 @@ export default {
         position = 20;
       }
 
-      var hotelRez = [];
-      var garbageCol = [];
-      var all = [];
-
-      for (var i = 1; i <= loop; i++) {
-        var normValue = "n" + position;
-        hotelRez[i - 1] = this.calculateAverageForNorm(0, normValue);
-        garbageCol[i - 1] = this.calculateAverageForNorm(1, normValue);
-        all[i - 1] = (hotelRez[i - 1] + garbageCol[i - 1]) / 2;
-        position++;
+      var average = [];
+      var totalAverage = [];
+      for (let loopIndex = 0; loopIndex < loop; loopIndex++) {
+        totalAverage[loopIndex] = 0;
       }
 
-      var data = [
-        {
-          name: "Hotel Reservation System",
-          data: hotelRez
-        },
-        {
-          name: "Garbage Collector System",
-          data: garbageCol
-        },
-        {
-          name: "All Case Studies",
-          data: all
+      var data = [];
+      var temp = position;
+      for (let k = 0; k < this.language.caseStudies.length; k++) {
+        for (var i = 1; i <= loop; i++) {
+          var normValue = "n" + temp;
+          average[i - 1] = this.calculateAverageForNorm(k, normValue);
+          totalAverage[i - 1] +=
+            average[i - 1] / this.language.caseStudies.length;
+          temp++;
         }
-      ];
-
+        temp = position;
+        data[k] = {
+          name: this.language.caseStudies[k].name,
+          data: average
+        };
+        data[this.language.caseStudies.length] = {
+          name: "All Case Studies",
+          data: totalAverage
+        };
+        average = [];
+      }
       return data;
     },
 
     calculateAverageForNorm(caseStudy, normValue) {
+      console.log(this.language.caseStudies[caseStudy].surveyResults);
       var average = 0;
       var results = this.language.caseStudies[caseStudy].surveyResults[
         normValue
       ];
+
+      if (results == null) return 0;
+      console.log(
+        this.language.caseStudies[caseStudy].name +
+          "  " +
+          results +
+          "  " +
+          normValue
+      );
       for (var i = 0; i < 5; i++) {
-        console.log(this.language.caseStudies[caseStudy].name + results);
         average = average + results[i] * (i + 1);
       }
-      return average / 8;
+      return (
+        average /
+        this.language.caseStudies[caseStudy].developmentTimes.userCount
+      );
     },
 
     surveyQueChartAverage(index) {
