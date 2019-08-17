@@ -12,7 +12,7 @@
             <p>
               This experimental work is conducted within the EGE University International Computer Institute Software Engineering Laboratory (SerLAB).
               <br>
-              <br>All information stated as part of this experiment is confidential and will be kept as such. Associate Professor Geylani Kardaş and Assistant Professor Moharram Challenger are responsible for this experiment and can be contacted at:
+              <br>All information stated as part of this experiment is confidential and will be kept as such. Associate Professor Geylani Kardaş and Ömer Faruk Alaca are responsible for this experiment and can be contacted at:
             </p>
             <ul>
               <li>
@@ -22,10 +22,10 @@
                 >http://ube.ege.edu.tr/~kardas/</a>
               </li>
               <li>
-                Assistant Professor Moharram Challenger:
+                Ömer Faruk Alaca:
                 <a
-                  href="http://ube.ege.edu.tr/~challenger/"
-                >http://ube.ege.edu.tr/~challenger/</a>
+                  href="omerfarukalaca@gmail.com"
+                >omerfarukalaca@gmail.com</a>
               </li>
             </ul>We would like to emphasize that:
             <ol>
@@ -833,7 +833,6 @@ export default {
             researcher: this.personalData.occupation.researcher,
             worker: this.personalData.occupation.worker,
           },
-          results: this.results.toString(),
         })
         .then(() => {
           //this.$router.push({ name: "Index" });
@@ -912,6 +911,7 @@ export default {
       db.collection("development_datas")
         .add({
           evaluate_language: this.language.id,
+          results: this.results.toString(),
           caseStudy: this.caseStudy,
           email: this.personalData.email,
           developmentTimes: {
@@ -1164,7 +1164,7 @@ export default {
 
       doc.text(20, 190, "Timestamp : " + Date.now());
       doc.text(20, 195, "Agent DSML : " + this.language.name);
-      doc.text(20, 200, "Case Study : ");
+      doc.text(20, 200, "Case Study : " + this.$route.params.caseStudy);
 
       doc.setFontSize(12);
       doc.text(

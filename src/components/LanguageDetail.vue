@@ -36,7 +36,7 @@
                         <b>URL :</b>
                       </vs-td>
                       <vs-td>
-                        <a>{{data.url}}</a>
+                        <a :href=data.url>{{data.url}}</a>
                       </vs-td>
                     </vs-tr>
                   </template>
@@ -73,7 +73,7 @@
                           v-if="this.validation.caseStudy"
                           class="red-text"
                         >{{validation.caseStudy}}</p>
-                        <button class="btn blue">Submit</button>
+                        <button class="btn blue">Evaluate</button>
                         
                       </div>
                     </div>
@@ -251,7 +251,7 @@
                     <div slot="header">
                       <h5 style="text-align: center;">Average Point</h5>
                       <h4 style="text-align: center;">
-                        <b>{{this.language.surveyAverageScores[0]}} / 5</b>
+                        <b>{{this.language.surveyAverageScores[0].toFixed(2)}} / 5</b>
                       </h4>
                     </div>
                   </vs-card>
@@ -709,12 +709,12 @@ export default {
         {
           name: "Average Point",
           data: [
-            this.language.surveyAverageScores[1],
-            this.language.surveyAverageScores[2],
-            this.language.surveyAverageScores[3],
-            this.language.surveyAverageScores[4],
-            this.language.surveyAverageScores[5],
-            this.language.surveyAverageScores[6]
+            this.language.surveyAverageScores[1].toFixed(2),
+            this.language.surveyAverageScores[2].toFixed(2),
+            this.language.surveyAverageScores[3].toFixed(2),
+            this.language.surveyAverageScores[4].toFixed(2),
+            this.language.surveyAverageScores[5].toFixed(2),
+            this.language.surveyAverageScores[6].toFixed(2)
           ]
         }
       ];
@@ -872,13 +872,19 @@ export default {
           });
       }
 
+      var divider = 0;
+      for (let k = 0; k < this.language.caseStudies.length; k++) {
+        if(this.language.caseStudies[k].developmentTimes.userCount != 0)
+          divider++;
+      }
+
       developmentSeries[this.language.caseStudies.length] = {
         name: "All Case Studies",
         data: [
-          problemAnalysis / this.language.caseStudies.length,
-          modelling / this.language.caseStudies.length,
-          implementation / this.language.caseStudies.length,
-          errorDetection / this.language.caseStudies.length
+          (problemAnalysis / divider).toFixed(2),
+          (modelling / divider).toFixed(2),
+          (implementation / divider).toFixed(2),
+          (errorDetection / divider).toFixed(2)
         ]
       };
       return developmentSeries;
@@ -981,10 +987,7 @@ export default {
       for (let index = 0; index < this.language.caseStudies.length; index++) {
         data[index] = {
           name: this.language.caseStudies[index].name,
-          data:
-            this.language.caseStudies[index].surveyResults == null
-              ? this.language.caseStudies[index].surveyResults[normValue]
-              : [0, 0, 0, 0, 0]
+          data:this.language.caseStudies[index].surveyResults[normValue]
         };
       }
       console.log(data.toString);
@@ -1152,8 +1155,8 @@ export default {
         average = average + results[i] * (i + 1);
       }
       return (
-        average /
-        this.language.caseStudies[caseStudy].developmentTimes.userCount
+        (average /
+        this.language.caseStudies[caseStudy].developmentTimes.userCount).toFixed(2)
       );
     },
 
@@ -1172,7 +1175,7 @@ export default {
       } else if (index == 600) {
         averageScore = this.language.surveyAverageScores[6];
       }
-      return averageScore;
+      return averageScore.toFixed(2);
     }
   }
 };

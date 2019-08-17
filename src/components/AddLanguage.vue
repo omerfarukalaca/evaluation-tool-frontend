@@ -109,7 +109,8 @@ export default {
         name: "",
         owner: "",
         url: "",
-        version: ""
+        version: "",
+        metamodelFileName: ""
       },
       languageUploads: {
         metamodel: File
@@ -151,7 +152,38 @@ export default {
             },
             modellingEntities: []
           },
-          surveyResults: {}
+          surveyResults: {
+            Compatibility: [0, 0, 0, 0, 0],
+            Expressiveness: [0, 0, 0, 0, 0],
+            Functional: [0, 0, 0, 0, 0],
+            MAS: [0, 0, 0, 0, 0],
+            Reliability: [0, 0, 0, 0, 0],
+            Usability: [0, 0, 0, 0, 0],
+            n1: [0, 0, 0, 0, 0],
+            n2: [0, 0, 0, 0, 0],
+            n3: [0, 0, 0, 0, 0],
+            n4: [0, 0, 0, 0, 0],
+            n5: [0, 0, 0, 0, 0],
+            n6: [0, 0, 0, 0, 0],
+            n7: [0, 0, 0, 0, 0],
+            n8: [0, 0, 0, 0, 0],
+            n9: [0, 0, 0, 0, 0],
+            n10: [0, 0, 0, 0, 0],
+            n11: [0, 0, 0, 0, 0],
+            n12: [0, 0, 0, 0, 0],
+            n13: [0, 0, 0, 0, 0],
+            n14: [0, 0, 0, 0, 0],
+            n15: [0, 0, 0, 0, 0],
+            n16: [0, 0, 0, 0, 0],
+            n17: [0, 0, 0, 0, 0],
+            n18: [0, 0, 0, 0, 0],
+            n19: [0, 0, 0, 0, 0],
+            n20: [0, 0, 0, 0, 0],
+            n21: [0, 0, 0, 0, 0],
+            n22: [0, 0, 0, 0, 0],
+            n23: [0, 0, 0, 0, 0],
+            n24: [0, 0, 0, 0, 0]
+          }
         };
       }
       //languages
@@ -160,6 +192,7 @@ export default {
           created_at: Date.now(),
           name: this.language.name,
           owner: this.language.owner,
+          metamodelFileName: this.language.metamodelFileName,
           url: this.language.url,
           version: this.language.version,
           surveyAverageScores: [0, 0, 0, 0, 0, 0, 0],
@@ -175,6 +208,7 @@ export default {
         });
     },
     detectMetamodel(fileList) {
+      this.language.metamodelFileName = fileList[0].name;
       this.languageUploads.metamodel = fileList[0];
     },
     detectCaseStudy(fileList, index) {

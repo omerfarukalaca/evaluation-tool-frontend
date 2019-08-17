@@ -43,7 +43,7 @@
                             <b>URL :</b>
                           </vs-td>
                           <vs-td>
-                            <a>{{data.url}}</a>
+                            <a :href=data.url>{{data.url}}</a>
                           </vs-td>
                         </vs-tr>
                       </template>
