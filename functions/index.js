@@ -6,6 +6,16 @@ admin.initializeApp(functions.config().firebase);
 
 const fs = admin.firestore();
 
+
+const mkdirp = require('mkdirp-promise');
+const spawn = require('child-process-promise').spawn;
+const path = require('path');
+const os = require('os');
+var unlink = require('fs');
+var $ = require("jquery")
+var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -18,8 +28,6 @@ exports.onLanguageCreated = functions.firestore
     // Get the language document
     const language = snap.data();
 
-    language.id = snap.id;
-
     fs.collection("languages")
       .where("name", "==", language.name)
       .get()
@@ -27,7 +35,9 @@ exports.onLanguageCreated = functions.firestore
         docs.forEach(doc => {
           fs.collection("languages")
             .doc(doc.id)
-            .update(language);
+            .update({
+              id:snap.id
+            });
         });
       });
     return true;
@@ -149,3 +159,65 @@ function calculateAverageForChar(array, divide) {
   console.log("Count: " + count)
   return average;
 }
+
+exports.processStorageFile = functions.storage.object().onFinalize(async (object) => {
+  // File and directory paths.
+  const filePath = object.name;
+  const contentType = object.contentType;
+  const fileDir = path.dirname(filePath);
+  const fileName = path.basename(filePath);
+  const tempLocalFile = path.join(os.tmpdir(), filePath);
+  const tempLocalDir = path.dirname(tempLocalFile);
+
+  console.log("filePath: " + filePath);
+  console.log("contentType: " + contentType);
+  console.log("fileDir: " + fileDir);
+  console.log("fileName: " + fileName);
+  console.log("tempLocalFile: " + tempLocalFile);
+  console.log("tempLocalDir: " + tempLocalDir);
+
+  // Cloud Storage files.
+  const bucket = admin.storage().bucket(object.bucket);
+  const file = bucket.file(filePath);
+  const metadata = {
+    contentType: contentType,
+    // To enable Client-side caching you can set the Cache-Control headers here. Uncomment below.
+    // 'Cache-Control': 'public,max-age=3600',
+  };
+
+  // Create the temp directory where the storage file will be downloaded.
+  await mkdirp(tempLocalDir)
+  // Download file from bucket.
+  await file.download({ destination: tempLocalFile });
+  console.log('The file has been downloaded to', tempLocalFile);
+
+  // Read Json and write firestore
+  // Exit if this is triggered on a file that is not an image.
+  if (contentType.startsWith('application/json')) {
+    const json = require(tempLocalFile);
+    console.log(json); // this will log out the json object
+    var entites = [];
+    
+    for(let index = 0; index < json.entities.length; index++) {
+      entites[index] = json.entities[index].name;
+    }
+
+    fs.collection("languages")
+      .where("name", "==", json.agentdsmlName)
+      .get()
+      .then(docs => {
+        docs.forEach(doc => {
+          fs.collection("languages")
+            .doc(doc.id)
+            .update({
+              entites:entites,
+            });
+        });
+      });
+    return console.log('Metamodel processed!');
+  }
+
+  // Once the image has been uploaded delete the local files to free up disk space.
+  unlink.unlinkSync(tempLocalFile);
+
+})

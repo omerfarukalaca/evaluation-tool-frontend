@@ -257,6 +257,12 @@ export default {
         this.faml.runtimeConcepts.length;
       //languages
 
+      console.log((((designTimePercentage + runTimePercentage) / 2).toFixed(2)).constructor);
+      console.log((designTimePercentage.toFixed(2)).constructor);
+      console.log((runTimePercentage.toFixed(2)).constructor);
+      console.log(dtConcepts);
+      console.log(rtConcepts);
+
       db.collection("languages")
         .where("name", "==", this.language.name)
         .get()
@@ -266,9 +272,9 @@ export default {
               .doc(doc.id)
               .update({
                 famlComparison: {
-                  averagePer: (((designTimePercentage + runTimePercentage) / 2).toFixed(2)).constructor,
-                  designTimePer: (designTimePercentage.toFixed(2)).constructor,
-                  runTimePer: (runTimePercentage.toFixed(2)).constructor,
+                  averagePer: parseInt((((designTimePercentage + runTimePercentage) / 2).toFixed(2))),
+                  designTimePer: parseInt((designTimePercentage.toFixed(2))),
+                  runTimePer: parseInt((runTimePercentage.toFixed(2))),
                   designTimeConcepts: dtConcepts,
                   runTimeConcepts: rtConcepts
                 }
