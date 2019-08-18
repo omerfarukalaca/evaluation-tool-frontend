@@ -36,7 +36,7 @@
                         <b>URL :</b>
                       </vs-td>
                       <vs-td>
-                        <a :href=data.url>{{data.url}}</a>
+                        <a :href="data.url">{{data.url}}</a>
                       </vs-td>
                     </vs-tr>
                   </template>
@@ -74,7 +74,6 @@
                           class="red-text"
                         >{{validation.caseStudy}}</p>
                         <button class="btn blue">Evaluate</button>
-                        
                       </div>
                     </div>
                   </form>
@@ -874,7 +873,7 @@ export default {
 
       var divider = 0;
       for (let k = 0; k < this.language.caseStudies.length; k++) {
-        if(this.language.caseStudies[k].developmentTimes.userCount != 0)
+        if (this.language.caseStudies[k].developmentTimes.userCount != 0)
           divider++;
       }
 
@@ -932,6 +931,7 @@ export default {
 
       for (let index = 0; index < this.language.entites.length; index++) {
         totalData[index] = 0;
+        tempData[index] = 0;
       }
 
       for (let cs = 0; cs < this.language.caseStudies.length; cs++) {
@@ -945,13 +945,17 @@ export default {
           name: this.language.caseStudies[cs].name,
           data: tempData
         };
-        tempData = [];
+        console.log(tempData);
+        for (let index = 0; index < this.language.entites.length; index++) {
+          tempData[index] = 0;
+        }
       }
 
       returnData[this.language.caseStudies.length] = {
         name: "All Case Studies",
         data: totalData
       };
+      console.log(returnData);
       return returnData;
     }
   },
@@ -959,7 +963,10 @@ export default {
   methods: {
     GoEvaluation() {
       if (this.caseStudySelect != null) {
-        this.$router.push({name: 'Evaluate', params: {id: this.language.id, caseStudy:this.caseStudySelect}});
+        this.$router.push({
+          name: "Evaluate",
+          params: { id: this.language.id, caseStudy: this.caseStudySelect }
+        });
       } else {
         if (this.caseStudySelect == null)
           this.validation.caseStudy = "You must select a case study";
@@ -987,7 +994,7 @@ export default {
       for (let index = 0; index < this.language.caseStudies.length; index++) {
         data[index] = {
           name: this.language.caseStudies[index].name,
-          data:this.language.caseStudies[index].surveyResults[normValue]
+          data: this.language.caseStudies[index].surveyResults[normValue]
         };
       }
       console.log(data.toString);
@@ -1155,9 +1162,9 @@ export default {
         average = average + results[i] * (i + 1);
       }
       return (
-        (average /
-        this.language.caseStudies[caseStudy].developmentTimes.userCount).toFixed(2)
-      );
+        average /
+        this.language.caseStudies[caseStudy].developmentTimes.userCount
+      ).toFixed(2);
     },
 
     surveyQueChartAverage(index) {
