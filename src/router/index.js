@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/components/Index'
 import Languages from '@/components/Languages'
 import LanguageDetail from '@/components/LanguageDetail'
+import MetamodelMatch from '@/components/MetamodelMatch'
 import Evaluate from '@/components/Evaluate'
 import AddLanguage from '@/components/AddLanguage'
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/add-language',
       name: 'AddLanguage',
       component: AddLanguage
+    },
+    {
+      path: '/metamodel-match/:id',
+      name: 'MetamodelMatch',
+      component: MetamodelMatch
     }
   ]
 })

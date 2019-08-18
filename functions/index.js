@@ -12,7 +12,6 @@ const fs = admin.firestore();
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
 // });
-
 exports.onLanguageCreated = functions.firestore
   .document("languages/{languageId}")
   .onCreate((async snap => {
@@ -20,14 +19,6 @@ exports.onLanguageCreated = functions.firestore
     const language = snap.data();
 
     language.id = snap.id;
-    language.famlComparison = {
-      averagePer: 0,
-      designTimePer: 0,
-      runTimePer: 0,
-      designTimeConcepts: ["N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"],
-      runTimeConcepts: ["N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"],
-    };
-    language.entites = ["N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"];
 
     fs.collection("languages")
       .where("name", "==", language.name)

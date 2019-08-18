@@ -110,7 +110,8 @@ export default {
         owner: "",
         url: "",
         version: "",
-        metamodelFileName: ""
+        metamodelFileName: "",
+        entites: ["N/A"]
       },
       languageUploads: {
         metamodel: File
@@ -186,6 +187,64 @@ export default {
           }
         };
       }
+
+      var famlComparison = {
+        averagePer: 0,
+        designTimePer: 0,
+        runTimePer: 0,
+        designTimeConcepts: [
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A"
+        ],
+        runTimeConcepts: [
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A"
+        ]
+      };
+
       //languages
       db.collection("languages")
         .add({
@@ -197,7 +256,9 @@ export default {
           version: this.language.version,
           surveyAverageScores: [0, 0, 0, 0, 0, 0, 0],
           is_active: true,
-          caseStudies: caseStudies
+          caseStudies: caseStudies,
+          entites: [],
+          famlComparison:famlComparison
         })
         .then(() => {
           //this.$router.push({ name: "Index" });
@@ -251,10 +312,24 @@ export default {
       }
     },
 
-    AddAgentDSML() {
+    async AddAgentDSML() {
       this.AddAgentDSMLDataToFirestore();
       this.AddCaseStudyFilesToStorage();
-      this.$router.push({ name: "Index" });
+
+      var newLanguageId;
+      let ref = db
+        .collection("languages")
+        .where("name", "==", this.language.name);
+      await ref.get().then(snapshot => {
+        snapshot.forEach(doc => {
+          newLanguageId = doc.id;
+        });
+      });
+
+      this.$router.push({
+        name: "MetamodelMatch",
+        params: { id: newLanguageId }
+      });
     }
   }
 };
