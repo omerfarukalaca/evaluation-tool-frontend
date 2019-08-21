@@ -5,7 +5,7 @@
         <div class="nav-wrapper">
           <div class="nav-content">
             <router-link to="/">
-              <span>Agent DSML Evaluation Tool</span>
+              <span>AgentDSM-Eval Tool</span>
             </router-link>
             <ul id="nav-mobile" class="right">
               <li>

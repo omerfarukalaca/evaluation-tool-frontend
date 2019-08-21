@@ -49,10 +49,7 @@
             <div class="file-path-wrapper">
               <input class="file-path validate" type="text" />
               <span class="helper-text">
-                Please rename your zip file to
-                <i>
-                  <b>Metamodel.zip</b>
-                </i>
+                Please upload metamodel in JSON format
               </span>
             </div>
           </div>

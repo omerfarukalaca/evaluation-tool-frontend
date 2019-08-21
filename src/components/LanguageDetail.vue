@@ -928,27 +928,37 @@ export default {
       var returnData = [];
       var totalData = [];
       var tempData = [];
+      var flag = true;
 
       for (let index = 0; index < this.language.entites.length; index++) {
         totalData[index] = 0;
-        tempData[index] = 0;
       }
 
       for (let cs = 0; cs < this.language.caseStudies.length; cs++) {
+        if (
+          this.language.caseStudies[cs].caseStudyAnalysis.modellingEntities
+            .length == 0
+        ) {
+          flag = false;
+        }
         for (let entity = 0; entity < this.language.entites.length; entity++) {
-          tempData[entity] = this.language.caseStudies[
-            cs
-          ].caseStudyAnalysis.modellingEntities[entity];
-          totalData[entity] += tempData[entity];
+          if (flag) {
+            tempData[entity] = this.language.caseStudies[
+              cs
+            ].caseStudyAnalysis.modellingEntities[entity];
+            totalData[entity] += tempData[entity];
+          } else {
+            tempData[entity] = 0;
+            totalData[entity] += tempData[entity];
+          }
         }
         returnData[cs] = {
           name: this.language.caseStudies[cs].name,
           data: tempData
         };
         console.log(tempData);
-        for (let index = 0; index < this.language.entites.length; index++) {
-          tempData[index] = 0;
-        }
+        tempData = [];
+        flag = true;
       }
 
       returnData[this.language.caseStudies.length] = {
@@ -963,6 +973,22 @@ export default {
   methods: {
     GoEvaluation() {
       if (this.caseStudySelect != null) {
+
+        storage
+          .ref(this.language.name + "/caseStudies/" + this.caseStudySelect)
+          .getDownloadURL()
+          .then(function(url) {
+            // `url` is the download URL for 'images/stars.jpg'
+            // This can be downloaded directly:
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = "blob";
+            xhr.onload = function(event) {
+              var blob = xhr.response;
+            };
+            xhr.open("GET", url);
+            xhr.send();
+          })
+
         this.$router.push({
           name: "Evaluate",
           params: { id: this.language.id, caseStudy: this.caseStudySelect }

@@ -272,9 +272,9 @@ export default {
               .doc(doc.id)
               .update({
                 famlComparison: {
-                  averagePer: parseInt((((designTimePercentage + runTimePercentage) / 2).toFixed(2))),
-                  designTimePer: parseInt((designTimePercentage.toFixed(2))),
-                  runTimePer: parseInt((runTimePercentage.toFixed(2))),
+                  averagePer: parseFloat((((designTimePercentage + runTimePercentage) / 2).toFixed(2))),
+                  designTimePer: parseFloat((designTimePercentage.toFixed(2))),
+                  runTimePer: parseFloat((runTimePercentage.toFixed(2))),
                   designTimeConcepts: dtConcepts,
                   runTimeConcepts: rtConcepts
                 }

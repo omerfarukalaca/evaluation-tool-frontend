@@ -2,11 +2,11 @@
   <div class="hello">
     <div class="container">
       <div class="jumbotron">
-        <h1 style="text-align: center;"  class="display-4">Agent DSML Evaluation Tool</h1>
+        <h1 style="text-align: center;"  class="display-4">AgentDSM-Eval Tool</h1>
         <h5
           class="lead"
-        >Greetings,<br><br>  The Agent DSL/DSML Evaluation Tool is a platform for evaluating DSL's and DSML's developed for Multi-Agent System modeling. 
-        <br><br>You can go to details to see reviews about the following languages. You can evaluate any of these languages by performing their projects.</h5>
+        >Greetings,<br><br>  The AgentDSM-Eval tool is a platform for evaluating DSML's developed for Multi-Agent System modeling. 
+        <br><br>You can go to details to see reviews about the following languages. You can evaluate any of these languages by performing their case studies.</h5>
       </div>
       <br />
       <br />

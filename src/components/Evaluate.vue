@@ -11,8 +11,8 @@
           <div class="field consent">
             <p>
               This experimental work is conducted within the EGE University International Computer Institute Software Engineering Laboratory (SerLAB).
-              <br>
-              <br>All information stated as part of this experiment is confidential and will be kept as such. Associate Professor Geylani Kardaş and Ömer Faruk Alaca are responsible for this experiment and can be contacted at:
+              <br />
+              <br />All information stated as part of this experiment is confidential and will be kept as such. Associate Professor Geylani Kardaş and Ömer Faruk Alaca are responsible for this experiment and can be contacted at:
             </p>
             <ul>
               <li>
@@ -23,9 +23,7 @@
               </li>
               <li>
                 Ömer Faruk Alaca:
-                <a
-                  href="omerfarukalaca@gmail.com"
-                >omerfarukalaca@gmail.com</a>
+                <a href="omerfarukalaca@gmail.com">omerfarukalaca@gmail.com</a>
               </li>
             </ul>We would like to emphasize that:
             <ol>
@@ -33,8 +31,8 @@
               <li>You are free to refuse to answer any question;</li>
               <li>You are free to withdraw at any time.</li>
             </ol>The experiment will be kept strictly confidential and will be made available only to members of the research team of the study or, in case external quality assessment takes place, to assessors under the same confidentiality conditions. Data collected in this experiment may be part of the final research report, but under no circumstances will your name or any identifying characteristic be included in the report.
-            <br>
-            <br>I accept the terms addressed above:
+            <br />
+            <br />I accept the terms addressed above:
           </div>
           <div class="field isAccept">
             <p>
@@ -46,7 +44,7 @@
                   value="true"
                   v-model="personalData.consent"
                   checked
-                >
+                />
                 <span>Yes</span>
               </label>
               <label>
@@ -56,7 +54,7 @@
                   type="radio"
                   value="false"
                   v-model="personalData.consent"
-                >
+                />
                 <span>No</span>
               </label>
             </p>
@@ -81,7 +79,7 @@
                 oninvalid="this.setCustomValidity('Please Enter valid email')"
                 oninput="setCustomValidity('')"
                 required
-              >
+              />
               <label for="email">Email</label>
               <span class="helper-text" data-error="invalid email">abc@xyz.com</span>
             </div>
@@ -102,7 +100,7 @@
                         v-model="personalData.gender"
                         checked
                         required
-                      >
+                      />
                       <span>Male</span>
                     </label>
                   </p>
@@ -114,7 +112,7 @@
                         type="radio"
                         value="female"
                         v-model="personalData.gender"
-                      >
+                      />
                       <span>Female</span>
                     </label>
                   </p>
@@ -133,7 +131,7 @@
                         v-model="personalData.age"
                         checked
                         required
-                      >
+                      />
                       <span>17-22</span>
                     </label>
                   </p>
@@ -145,7 +143,7 @@
                         type="radio"
                         value="23-25"
                         v-model="personalData.age"
-                      >
+                      />
                       <span>23-25</span>
                     </label>
                   </p>
@@ -157,7 +155,7 @@
                         type="radio"
                         value="26+"
                         v-model="personalData.age"
-                      >
+                      />
                       <span>26+</span>
                     </label>
                   </p>
@@ -181,7 +179,7 @@
                         v-model="personalData.study"
                         checked
                         required
-                      >
+                      />
                       <span>Computer Science/Engineering</span>
                     </label>
                   </p>
@@ -193,7 +191,7 @@
                         type="radio"
                         value="Electronic Engineering"
                         v-model="personalData.study"
-                      >
+                      />
                       <span>Electronic Engineering</span>
                     </label>
                   </p>
@@ -205,7 +203,7 @@
                         type="radio"
                         value="Other"
                         v-model="personalData.study"
-                      >
+                      />
                       <span>Other</span>
                     </label>
                   </p>
@@ -224,7 +222,7 @@
                         v-model="personalData.education"
                         checked
                         required
-                      >
+                      />
                       <span>Bachelor of Science</span>
                     </label>
                   </p>
@@ -236,7 +234,7 @@
                         type="radio"
                         value="Master of Science"
                         v-model="personalData.education"
-                      >
+                      />
                       <span>Master of Science</span>
                     </label>
                   </p>
@@ -248,7 +246,7 @@
                         type="radio"
                         value="Doctor of Philosophy"
                         v-model="personalData.education"
-                      >
+                      />
                       <span>Doctor of Philosophy</span>
                     </label>
                   </p>
@@ -260,7 +258,7 @@
                         type="radio"
                         value="Postdoctoral"
                         v-model="personalData.education"
-                      >
+                      />
                       <span>Postdoctoral</span>
                     </label>
                   </p>
@@ -284,7 +282,7 @@
                         v-model="personalData.experience"
                         checked
                         required
-                      >
+                      />
                       <span>I've learned MAS in the context of a course.</span>
                     </label>
                   </p>
@@ -296,7 +294,7 @@
                         type="radio"
                         value="I've used MAS in a professional context"
                         v-model="personalData.experience"
-                      >
+                      />
                       <span>I've used MAS in a professional context</span>
                     </label>
                   </p>
@@ -308,7 +306,7 @@
                         type="radio"
                         value="I know what MAS is but never used it"
                         v-model="personalData.experience"
-                      >
+                      />
                       <span>I know what MAS is but never used it</span>
                     </label>
                   </p>
@@ -320,7 +318,7 @@
                         type="radio"
                         value="I've never heard of it."
                         v-model="personalData.experience"
-                      >
+                      />
                       <span>I've never heard of it.</span>
                     </label>
                   </p>
@@ -337,7 +335,7 @@
                         type="checkbox"
                         value="true"
                         v-model="personalData.occupation.student"
-                      >
+                      />
                       <span>Student</span>
                     </label>
                   </p>
@@ -349,7 +347,7 @@
                         type="checkbox"
                         value="true"
                         v-model="personalData.occupation.researcher"
-                      >
+                      />
                       <span>Researcher</span>
                     </label>
                   </p>
@@ -361,7 +359,7 @@
                         type="checkbox"
                         value="true"
                         v-model="personalData.occupation.worker"
-                      >
+                      />
                       <span>Worker</span>
                     </label>
                   </p>
@@ -397,7 +395,7 @@
                     v-model="developmentData.developmentTimes.problemAnalysis"
                     v-on:keypress="isNumber($event)"
                     required
-                  >
+                  />
                   <label for="icon_problem">Problem Analysis</label>
                   <span class="helper-text">minutes</span>
                 </div>
@@ -412,7 +410,7 @@
                     v-model="developmentData.developmentTimes.modellingDesign"
                     v-on:keypress="isNumber($event)"
                     required
-                  >
+                  />
                   <label for="icon_modelling">Modelling - Design</label>
                   <span class="helper-text">minutes</span>
                 </div>
@@ -429,7 +427,7 @@
                     v-model="developmentData.developmentTimes.implementation"
                     v-on:keypress="isNumber($event)"
                     required
-                  >
+                  />
                   <label for="icon_implementation">Implemantaion</label>
                   <span class="helper-text">minutes</span>
                 </div>
@@ -444,7 +442,7 @@
                     v-model="developmentData.developmentTimes.errorTesting"
                     v-on:keypress="isNumber($event)"
                     required
-                  >
+                  />
                   <label for="icon_error">Error detection - Testing</label>
                   <span class="helper-text">minutes</span>
                 </div>
@@ -489,10 +487,10 @@
                 accept="application/zip, application/rar"
                 id="modelling-artifacts"
                 @change="detectMA($event.target.files)"
-              >
+              />
             </div>
             <div class="file-path-wrapper">
-              <input class="file-path validate" type="text">
+              <input class="file-path validate" type="text" />
               <span class="helper-text">
                 Please rename your zip file to
                 <i>
@@ -509,10 +507,10 @@
                 accept="application/zip, application/rar"
                 id="generated-project"
                 @change="detectGP($event.target.files)"
-              >
+              />
             </div>
             <div class="file-path-wrapper">
-              <input class="file-path validate" type="text">
+              <input class="file-path validate" type="text" />
               <span class="helper-text">
                 Please rename your zip file to
                 <i>
@@ -529,10 +527,10 @@
                 accept="application/zip, application/rar"
                 id="full-project"
                 @change="detectFP($event.target.files)"
-              >
+              />
             </div>
             <div class="file-path-wrapper">
-              <input class="file-path validate" type="text">
+              <input class="file-path validate" type="text" />
               <span class="helper-text">
                 Please rename your zip file to
                 <i>
@@ -541,7 +539,7 @@
               </span>
             </div>
           </div>
-          <br>
+          <br />
         </div>
       </div>
 
@@ -552,25 +550,13 @@
             <i class="material-icons">assessment</i>
             Quality Survey
           </h4>
-          <p>
-            Please evaluate Agent DSML in terms of the following norms. You can give a score between 1 and 5 to the norms. 
-          </p>
+          <p>Please evaluate Agent DSML in terms of the following norms. You can give a score between 1 and 5 to the norms.</p>
           <ol>
-            <li>
-                Very Bad
-            </li>
-            <li>
-                Bad
-            </li>
-            <li>
-                Average
-            </li>
-            <li>
-                Good
-            </li>
-            <li>
-                Very Good
-            </li>
+            <li>Very Bad</li>
+            <li>Bad</li>
+            <li>Average</li>
+            <li>Good</li>
+            <li>Very Good</li>
           </ol>
           <div class="section">
             <div class="row" v-for="norm in getNorms" :key="norm.id">
@@ -589,7 +575,7 @@
                       v-model="results[norm.id]"
                       multiple
                       required
-                    >
+                    />
                     <span style="padding-left: 23px; margin-left: 20px">{{ choice.id }}</span>
                   </label>
                 </p>
@@ -609,11 +595,11 @@
         <button class="btn blue">Submit</button>
       </div>
     </form>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
   </div>
 </template>
 
@@ -809,45 +795,46 @@ export default {
       },
       modellingURL: "OK",
       generatedURL: "OK",
-      fullURL: "OK",
+      fullURL: "OK"
     };
   },
   methods: {
     AddPersonalDataToFirestore() {
       console.log(this.results.toString()),
-      //PERSONAL DATA
-      db.collection("personal_datas")
-        .add({
-          created_at: Date.now(),
-          evaluate_language: this.language.id,
-          caseStudy: this.caseStudy,
-          consent: this.personalData.consent,
-          email: this.personalData.email,
-          gender: this.personalData.gender,
-          age: this.personalData.age,
-          study: this.personalData.study,
-          education: this.personalData.education,
-          experience: this.personalData.experience,
-          occupation: {
-            student: this.personalData.occupation.student,
-            researcher: this.personalData.occupation.researcher,
-            worker: this.personalData.occupation.worker,
-          },
-        })
-        .then(() => {
-          //this.$router.push({ name: "Index" });
-          console.log(
-            this.personalData.email +
-              "'s personal data successfully added firestore"
-          );
-        })
-        .catch(err => {
-          console.log(err);
-        });
+        //PERSONAL DATA
+        db
+          .collection("personal_datas")
+          .add({
+            created_at: Date.now(),
+            evaluate_language: this.language.id,
+            caseStudy: this.caseStudy,
+            consent: this.personalData.consent,
+            email: this.personalData.email,
+            gender: this.personalData.gender,
+            age: this.personalData.age,
+            study: this.personalData.study,
+            education: this.personalData.education,
+            experience: this.personalData.experience,
+            occupation: {
+              student: this.personalData.occupation.student,
+              researcher: this.personalData.occupation.researcher,
+              worker: this.personalData.occupation.worker
+            }
+          })
+          .then(() => {
+            //this.$router.push({ name: "Index" });
+            console.log(
+              this.personalData.email +
+                "'s personal data successfully added firestore"
+            );
+          })
+          .catch(err => {
+            console.log(err);
+          });
     },
 
-    AddCaseStudyFilesToStorage() {
-      storage
+    async AddCaseStudyFilesToStorage() {
+      await storage
         .ref(
           this.language.id +
             "/" +
@@ -866,7 +853,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      storage
+      await storage
         .ref(
           this.language.id +
             "/" +
@@ -885,7 +872,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      storage
+      await storage
         .ref(
           this.language.id +
             "/" +
@@ -967,9 +954,9 @@ export default {
       }
     },
 
-    SetDownloadUrls() {
+    async SetDownloadUrls() {
       console.log("SerURLS");
-          storage
+      await storage
         .ref(
           this.language.id +
             "/" +
@@ -983,7 +970,7 @@ export default {
           console.log(downloadURL);
         });
 
-      storage
+      await storage
         .ref(
           this.language.id +
             "/" +
@@ -997,7 +984,7 @@ export default {
           console.log(downloadURL);
         });
 
-      storage
+      await storage
         .ref(
           this.language.id +
             "/" +
