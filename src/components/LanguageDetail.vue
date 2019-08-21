@@ -971,23 +971,33 @@ export default {
   },
 
   methods: {
-    GoEvaluation() {
+    async GoEvaluation() {
       if (this.caseStudySelect != null) {
-
-        storage
+        var filename = this.caseStudySelect + ".pdf";
+        console.log(this.language.name + "/caseStudies/" + this.caseStudySelect);
+        await storage
           .ref(this.language.name + "/caseStudies/" + this.caseStudySelect)
           .getDownloadURL()
           .then(function(url) {
+            console.log(url);
             // `url` is the download URL for 'images/stars.jpg'
             // This can be downloaded directly:
             var xhr = new XMLHttpRequest();
             xhr.responseType = "blob";
             xhr.onload = function(event) {
-              var blob = xhr.response;
+              var a = document.createElement("a");
+              a.href = window.URL.createObjectURL(xhr.response);
+              a.download = filename;
+              a.style.display = "none";
+              document.body.appendChild(a);
+              a.click();
             };
             xhr.open("GET", url);
             xhr.send();
           })
+          .catch(function(error) {
+            console.log(error);
+          });
 
         this.$router.push({
           name: "Evaluate",
