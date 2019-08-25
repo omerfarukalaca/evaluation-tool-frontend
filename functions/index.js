@@ -36,7 +36,7 @@ exports.onLanguageCreated = functions.firestore
           fs.collection("languages")
             .doc(doc.id)
             .update({
-              id:snap.id
+              id: snap.id
             });
         });
       });
@@ -118,6 +118,20 @@ exports.onDevelopmentDataCreated = functions.firestore
     languageData.caseStudies[flag].developmentTimes.times.problemAnalysis = problemAnalysis;
 
 
+    //HC
+    var str = languageData.name;
+    console.log("Mock :" + str);
+    if (str.includes("Clone")) {
+      console.log("Randomize :" + str);
+      languageData.caseStudies[flag].caseStudyAnalysis.LoC.generated += randomize("g", -1);
+      languageData.caseStudies[flag].caseStudyAnalysis.LoC.hardCoded += randomize("h", -1);
+      for (let index = 0; index < languageData.entites.length; index++) {
+        languageData.caseStudies[flag].caseStudyAnalysis.modellingEntities[index] = randomize("m", index);
+        console.log("Rand :" + randomize("m", index));
+        console.log("Data :" + languageData.caseStudies[flag].caseStudyAnalysis.modellingEntities[index]);
+      }
+    }
+
     fs.collection("languages")
       .where("id", "==", development_data.evaluate_language)
       .get()
@@ -131,6 +145,63 @@ exports.onDevelopmentDataCreated = functions.firestore
     return true;
   }));
 
+function randomize(type, index) {
+  var value = 0;
+  if (type == "g") {
+    value = getRndInteger(200, 400);
+    return value;
+  }
+  if (type == "h") {
+    value = getRndInteger(400, 550);
+    return value;
+  }
+  if (type == "m") {
+    switch (index) {
+      case 0:
+        value = getRndInteger(0, 1);
+        break;
+      case 1:
+        value = getRndInteger(2, 5);
+        break;
+      case 2:
+        value = getRndInteger(1, 2);
+        break;
+      case 3:
+        value = getRndInteger(1, 4);
+        break;
+      case 4:
+        value = getRndInteger(1, 4);
+        break;
+      case 5:
+        value = getRndInteger(3, 7);
+        break;
+      case 6:
+        value = getRndInteger(1, 3);
+        break;
+      case 7:
+        value = getRndInteger(2, 5);
+        break;
+      case 8:
+        value = getRndInteger(1, 3);
+        break;
+      case 9:
+        value = getRndInteger(0, 1);
+        break;
+      case 10:
+        value = getRndInteger(1, 3);
+        break;
+      default:
+        value = getRndInteger(3, 6);
+        break;
+
+    }
+    return value;
+  }
+}
+
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 function calculateAverageForChar(array, divide) {
   var sum = 0;
@@ -197,8 +268,8 @@ exports.processStorageFile = functions.storage.object().onFinalize(async (object
     const json = require(tempLocalFile);
     console.log(json); // this will log out the json object
     var entites = [];
-    
-    for(let index = 0; index < json.entities.length; index++) {
+
+    for (let index = 0; index < json.entities.length; index++) {
       entites[index] = json.entities[index].name;
     }
 
@@ -210,7 +281,7 @@ exports.processStorageFile = functions.storage.object().onFinalize(async (object
           fs.collection("languages")
             .doc(doc.id)
             .update({
-              entites:entites,
+              entites: entites,
             });
         });
       });
