@@ -143,6 +143,15 @@ export default {
               problemAnalysis: 0
             }
           },
+          withoutDevelopmentTimes: {
+            userCount: 0,
+            times: {
+              errorDetection: 0,
+              implementation: 0,
+              modelling: 0,
+              problemAnalysis: 0
+            }
+          },
           caseStudyAnalysis: {
             LoC: {
               generated: 0,

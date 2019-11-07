@@ -27,7 +27,7 @@ export default new Router({
       component: LanguageDetail
     },
     {
-      path: '/evaluate/:id/case-study/:caseStudy',
+      path: '/evaluate/:id/case-study/:caseStudy/:flag',
       name: 'Evaluate',
       component: Evaluate,
     },

@@ -51,8 +51,9 @@
                     <br />
                   </div>
                   <form @submit.prevent="GoEvaluation">
-                    <div class="col s6">
-                      <div class="con-select-example">
+                    <div class="row">
+                      <div class="col s4">
+                        <div class="con-select-example">
                         <vs-select
                           class="selectExample"
                           label="Case Study"
@@ -66,16 +67,37 @@
                           />
                         </vs-select>
                       </div>
-                    </div>
-                    <div class="col s6">
-                      <div style="text-align: left;">
+                      </div>
+                      <div class="col s4">
+                          <div class="con-select-example">
+                          <vs-select
+                            class="selectExample"
+                            label="Development Tool"
+                            v-model="withWithoutCSSelect"
+                          >
+                            <vs-select-item
+                              :key="index"
+                              :value="item.value"
+                              :text="item.text"
+                              v-for="item,index in withWithoutCSOptions"
+                            />
+                          </vs-select>
+                          </div>
+                        </div>
+                      <div class="col s4">
+                        <div style="text-align: left;">
                         <p
                           v-if="this.validation.caseStudy"
                           class="red-text"
                         >{{validation.caseStudy}}</p>
+                        <p
+                          v-if="this.validation.caseStudy"
+                          class="red-text"
+                        >{{validation.withWithout}}</p>
                         <button class="btn blue">Evaluate</button>
+                        </div>
                       </div>
-                    </div>
+                    </div> 
                   </form>
                 </div>
               </div>
@@ -216,6 +238,16 @@
                   height="350"
                   :options="chartOptions"
                   :series="developmentSeries"
+                />
+              </div>
+            </div>
+            <div class="col s12">
+              <div class="field timeTableField">
+                <apexchart
+                  type="bar"
+                  height="350"
+                  :options="withoutChartOptions"
+                  :series="withoutDevelopmentSeries"
                 />
               </div>
             </div>
@@ -554,9 +586,11 @@ export default {
   data() {
     return {
       validation: {
-        caseStudy: null
+        caseStudy: null,
+        withWithout: null
       },
       caseStudySelect: null,
+      withWithoutCSSelect: null,
       caseStudies: null,
       id: this.$route.params.id,
       language: null,
@@ -565,7 +599,10 @@ export default {
       benchmarkingOptions: {
         labels: ["Supported", "Not Supported"]
       },
-      chartOptions: {
+      withoutChartOptions: {
+        title:{
+          text: "Without Agent DSML"
+        },
         chart: {
           stacked: false,
           toolbar: {
@@ -573,7 +610,7 @@ export default {
           },
           zoom: {
             enabled: true
-          }
+          },
         },
         responsive: [
           {
@@ -611,7 +648,58 @@ export default {
         },
         fill: {
           opacity: 1
-        }
+        },
+      },
+      chartOptions: {
+        title:{
+          text: "With Agent DSML"
+        },
+        chart: {
+          stacked: false,
+          toolbar: {
+            show: true
+          },
+          zoom: {
+            enabled: true
+          },
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: "bottom",
+                offsetX: -10,
+                offsetY: 0
+              }
+            }
+          }
+        ],
+        plotOptions: {
+          bar: {
+            horizontal: true
+          }
+        },
+
+        xaxis: {
+          type: "string",
+          categories: [
+            "Problem Analysis",
+            "Modelling & Design",
+            "Implementation",
+            "Error Testing"
+          ],
+          title: {
+            text: "Minutes"
+          }
+        },
+        legend: {
+          position: "right",
+          offsetY: 40
+        },
+        fill: {
+          opacity: 1
+        },
       },
       radarOptions: {
         labels: [
@@ -727,6 +815,19 @@ export default {
         };
       }
       return caseStudies;
+    },
+
+    withWithoutCSOptions() {
+      var options = [];
+      options[0] = {
+        text: "with " + this.language.name,
+        value: 0,
+      }
+      options[1] = {
+        text: "without " + this.language.name,
+        value: 1,
+      }
+      return options;
     },
 
     generationOptions() {
@@ -888,6 +989,55 @@ export default {
       };
       return developmentSeries;
     },
+
+    withoutDevelopmentSeries() {
+      var developmentSeries = [];
+      var problemAnalysis = 0;
+      var modelling = 0;
+      var implementation = 0;
+      var errorDetection = 0;
+
+      for (let index = 0; index < this.language.caseStudies.length; index++) {
+        (problemAnalysis += this.language.caseStudies[index].withoutDevelopmentTimes
+          .times.problemAnalysis),
+          (modelling += this.language.caseStudies[index].withoutDevelopmentTimes.times
+            .modelling),
+          (implementation += this.language.caseStudies[index].withoutDevelopmentTimes
+            .times.implementation),
+          (errorDetection += this.language.caseStudies[index].withoutDevelopmentTimes
+            .times.errorDetection),
+          (developmentSeries[index] = {
+            name: this.language.caseStudies[index].name,
+            data: [
+              this.language.caseStudies[index].withoutDevelopmentTimes.times
+                .problemAnalysis,
+              this.language.caseStudies[index].withoutDevelopmentTimes.times.modelling,
+              this.language.caseStudies[index].withoutDevelopmentTimes.times
+                .implementation,
+              this.language.caseStudies[index].withoutDevelopmentTimes.times
+                .errorDetection
+            ]
+          });
+      }
+
+      var divider = 0;
+      for (let k = 0; k < this.language.caseStudies.length; k++) {
+        if (this.language.caseStudies[k].withoutDevelopmentTimes.userCount != 0)
+          divider++;
+      }
+
+      developmentSeries[this.language.caseStudies.length] = {
+        name: "All Case Studies",
+        data: [
+          (problemAnalysis / divider).toFixed(2),
+          (modelling / divider).toFixed(2),
+          (implementation / divider).toFixed(2),
+          (errorDetection / divider).toFixed(2)
+        ]
+      };
+      return developmentSeries;
+    },
+
     generationSeries() {
       var generatedArray = [];
       var hardCodedArray = [];
@@ -972,7 +1122,7 @@ export default {
 
   methods: {
     async GoEvaluation() {
-      if (this.caseStudySelect != null) {
+      if (this.caseStudySelect != null && this.withWithoutCSSelect != null) {
         var filename = this.caseStudySelect + ".pdf";
         console.log(this.language.name + "/caseStudies/" + this.caseStudySelect);
         await storage
@@ -1001,11 +1151,18 @@ export default {
 
         this.$router.push({
           name: "Evaluate",
-          params: { id: this.language.id, caseStudy: this.caseStudySelect }
+          params: { id: this.language.id, caseStudy: this.caseStudySelect, flag:this.withWithoutCSSelect}
         });
       } else {
         if (this.caseStudySelect == null)
           this.validation.caseStudy = "You must select a case study";
+        else{
+          this.validation.caseStudy = null;
+        }
+        if (this.withWithoutCSSelect == null)
+          this.validation.withWithout = "You must select a development tool";
+        else
+          this.validation.withWithout = null;
       }
     },
     surveySeries(index) {

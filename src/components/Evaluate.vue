@@ -453,7 +453,7 @@
       </div>
 
       <!-- UPLOADS -->
-      <div class="card">
+      <div class="card" v-if="this.flag == 0">
         <div class="uploads container">
           <h4 class="left-align indigo-text">
             <i class="material-icons">cloud_upload</i> Project Files Uploads
@@ -544,7 +544,7 @@
       </div>
 
       <!-- SURVEY -->
-      <div class="card">
+      <div class="card" v-if="this.flag == 0">
         <div class="survey container">
           <h4 class="left-align indigo-text">
             <i class="material-icons">assessment</i>
@@ -760,6 +760,7 @@ export default {
     return {
       id: this.$route.params.id,
       caseStudy: this.$route.params.caseStudy,
+      flag: this.$route.params.flag,
       results: [],
       validation: {
         emailValidation: null,
@@ -898,7 +899,6 @@ export default {
       db.collection("development_datas")
         .add({
           evaluate_language: this.language.id,
-          results: this.results.toString(),
           caseStudy: this.caseStudy,
           email: this.personalData.email,
           developmentTimes: {
@@ -919,6 +919,8 @@ export default {
               10
             )
           },
+          flag: this.flag,
+          results:this.results.toString(),
           zips: {
             modellingArtifact: this.developmentData.zips.modellingArtifact.name,
             generatedProject: this.developmentData.zips.generatedProject.name,
@@ -941,9 +943,11 @@ export default {
       if (this.personalData.email && this.personalData.consent) {
         this.AddPersonalDataToFirestore();
         this.AddDevelopmentDataToFirestore();
-        this.AddCaseStudyFilesToStorage();
-        //this.$(".modal").openModal()
-        this.GeneratePDF();
+        if(this.flag == 0){
+          this.AddCaseStudyFilesToStorage();
+          //this.$(".modal").openModal()
+          this.GeneratePDF();  
+        }
         this.$router.push({ name: "Index" });
       } else {
         if (!this.personalData.email)
