@@ -1,13 +1,13 @@
 
 <template>
   <div class="add language container">
-    <h3 class="center-align indigo-text">Add New Agent DSML</h3>
+    <h3 class="center-align indigo-text">Add New MAS DSML</h3>
     <form @submit.prevent="AddAgentDSML">
       <!-- LANGUAGE DATA -->
       <div class="card">
         <div class="language-data container">
           <h4 class="left-align indigo-text">
-            <i class="material-icons">fingerprint</i> Agent DSML Data
+            <i class="material-icons">fingerprint</i> MAS DSML Data
           </h4>
           <div class="section">
             <div class="input-field col s12">
@@ -268,7 +268,7 @@ export default {
         })
         .then(() => {
           //this.$router.push({ name: "Index" });
-          console.log(this.language.name + " Agent DSML added.");
+          console.log(this.language.name + " MAS DSML added.");
         })
         .catch(err => {
           console.log(err);

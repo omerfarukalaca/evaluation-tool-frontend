@@ -550,7 +550,7 @@
             <i class="material-icons">assessment</i>
             Quality Survey
           </h4>
-          <p>Please evaluate Agent DSML in terms of the following norms. You can give a score between 1 and 5 to the norms.</p>
+          <p>Please evaluate MAS DSML in terms of the following norms. You can give a score between 1 and 5 to the norms.</p>
           <ol>
             <li>Very Bad</li>
             <li>Bad</li>
@@ -639,117 +639,117 @@ export default {
         {
           id: 1,
           norm:
-            "All concepts and scenarios of the domain can be expressed in the Agent DSML (completeness)"
+            "All concepts and scenarios of the domain can be expressed in the MAS DSML (completeness)"
         },
         {
           id: 2,
           norm:
-            "Agent DSML is appropriate for the specific applications of the domain (e.g. to express an algorithm) (appropriateness)"
+            "The MAS DSML is appropriate for the specific applications of the domain (e.g. to express an interaction between two agents) (appropriateness)"
         },
         {
           id: 3,
           norm:
-            "The required amount of effort for understanding the language is small (comprehensibility)"
+            "The required amount of effort for understanding the MAS DSML is small (comprehensibility)"
         },
         {
           id: 4,
           norm:
-            "The concepts and symbols of the language are easy to learn and remember (learnability)"
+            "The MAS DSML’s concepts and symbols are easy to learn and remember (learnability)"
         },
         {
           id: 5,
           norm:
-            "Language has capability to help users achieve their tasks in a minimum number of steps"
+            "The MAS DSML has capability to help users achieving their tasks in a minimum number of steps"
         },
         {
           id: 6,
           norm:
-            "Users can recognize whether the Agent DSML is appropriate for their needs (likeability,userperception)"
+            "The MAS DSML is appropriate for the needs of agent developers (likeability, user perception)"
         },
         {
           id: 7,
           norm:
-            "Agent DSML has attributes that make it easy to operate and control the language (operability)"
+            "Both operating and controlling the language are facilitated by the MAS DSML’s features (operability)"
         },
         {
           id: 8,
-          norm: "Agent DSML has symbols that are good-looking (attractiveness)"
+          norm: "The MAS DSML owns user-friendly graphical notations (attractiveness)"
         },
         {
           id: 9,
           norm:
-            "The language provides mechanisms for compactness of the representation of the program. (compactness)"
+            "The language provides mechanisms for the compactness of the representation of the program. (compactness)"
         },
         {
           id: 10,
           norm:
-            "Agent DSML protects users against making errors. The DSL avoids the user to make mistakes. (model checking)"
+            "The MAS DSML protects users against making errors and provides model checking."
         },
         {
           id: 11,
           norm:
-            "Agent DSML includes right elements and correct relations between them (Agent DSML prevents the unexpected interactions between its elements) (correctness)"
+            "The MAS DSML prevents the construction of wrong relations between language elements (correctness)"
         },
         {
           id: 12,
-          norm: "A problem solving strategy can be mapped into a program easily"
+          norm: "It is easy to reflect a MAS design into an agent program easily with the DSML."
         },
         {
           id: 13,
           norm:
-            "The Agent DSML that provides one and only one good way to express every concept of interest (unique)"
+            "The MAS DSML provides one and only one good way to express every MAS concept (unique)"
         },
         {
           id: 14,
           norm:
-            "Each Agent DSML construct is used to represent exactly one distinct concept in the domain (orthogonal)"
+            "Each MAS DSML construct is used to represent exactly one distinct concept in the agent domain (orthogonal)"
         },
         {
           id: 15,
           norm:
-            "The language constructs correspond to important domain concepts. Agent DSML does not include domain concepts that are not important."
+            "The language constructs correspond only to necessary agent domain concepts."
         },
         {
           id: 16,
-          norm: "Agent DSML does not contain conflicting elements."
+          norm: "The MAS DSML does not contain any conflicting elements."
         },
         {
           id: 17,
           norm:
-            "Agent DSML is at the right abstraction level such that it is not more complex or detailed than necessary"
+            "The abstraction level of the MAS DSML is satisfactory for general modeling of MAS, i.e. it is free from specific definitions of agent deployment platforms such as JADE or JACK."
         },
         {
           id: 18,
           norm:
-            "Using Agent DSML to develop models fits in the development process, since it is used as part of a development process with phases and roles."
+            "Using the MAS DSML to develop agent models fits in the general development process of MAS. The language can be used as part of an AOSE methodology with process phases and roles."
         },
         {
           id: 19,
           norm:
-            "Agent DSML is compatible with the domain. Agent DMSL has capability to operate with other elements of the domain with no modification required to perform a specific application in the domain."
+            "The MAS DSML is compatible with the MAS domain."
         },
         {
           id: 20,
-          norm: "Agent DMSL make MAS development easier."
+          norm: "The MAS DSML makes MAS development easier."
         },
         {
           id: 21,
           norm:
-            "Agent DSML is appropriate for BDI (Belief-Desire-Intention) agent development."
+            "The MAS DSML is appropriate for the construction of specific agent architectures and/or autonomous agent planning models such as reactive agents or Belief-Desire-Intention (BDI) models."
         },
         {
           id: 22,
-          norm: "IDE of Agent DSML is easy to use."
+          norm: "IDE of the MAS DSML is easy to use and provides a handy interface for software development from different MAS perspectives."
         },
         {
           id: 23,
           norm:
-            "Agent DSML is powerful enough to model the general MAS structure."
+            "The MAS DSML is powerful enough to implement the general MAS structure with including the construction of agent plans, agent internals, communication between agents and agent interactions with the resources residing in the MAS environment."
         },
         {
           id: 24,
           norm:
-            "Agent DSML handles any encountered difficulties while using it."
+            "The MAS DSML enables graphical modeling of both static and runtime aspects of agents and assists the implementation of agent components with sufficient code generation."
         }
       ];
     }
@@ -1154,7 +1154,7 @@ export default {
       );
 
       doc.text(20, 190, "Timestamp : " + Date.now());
-      doc.text(20, 195, "Agent DSML : " + this.language.name);
+      doc.text(20, 195, "MAS DSML : " + this.language.name);
       doc.text(20, 200, "Case Study : " + this.$route.params.caseStudy);
 
       doc.setFontSize(12);

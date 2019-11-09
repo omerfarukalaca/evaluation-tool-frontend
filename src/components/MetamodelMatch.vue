@@ -1,7 +1,7 @@
 
 <template>
   <div class="add language container">
-    <h3 class="center-align indigo-text">Add New Agent DSML</h3>
+    <h3 class="center-align indigo-text">Add New MAS DSML</h3>
     <form @submit.prevent="MetamodelMatch">
       <!-- LANGUAGE DATA -->
       <div class="card">
@@ -198,7 +198,7 @@ export default {
     let ref = db
       .collection("languages")
       .where("id", "==", this.$route.params.id);
-    let famlRef = db.collection("languages").where("is_active", "==", false);
+    let famlRef = db.collection("languages").where("isFaml", "==", true);
     famlRef.get().then(snapshot => {
       snapshot.forEach(doc => {
         this.faml = doc.data();

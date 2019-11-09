@@ -235,24 +235,40 @@
               <div class="field timeTableField">
                 <apexchart
                   type="bar"
-                  height="350"
-                  :options="chartOptions"
-                  :series="developmentSeries"
+                  height="200"
+                  :options="AllChartOptions"
+                  :series="AllDevelopmentSeries"
                 />
               </div>
-            </div>
-            <div class="col s12">
+              </div>
+              <div class="col s12">
               <div class="field timeTableField">
                 <apexchart
                   type="bar"
                   height="350"
-                  :options="withoutChartOptions"
-                  :series="withoutDevelopmentSeries"
+                  :options="allCasesChartOptions"
+                  :series="developmentSeries"
                 />
               </div>
             </div>
+            <div class="divider"></div>
+            <div class="col s12">
+                <vs-tabs>
+                  <div v-for="(caseStudy, index) in this.language.caseStudies" :key="index">
+                    <vs-tab :label="caseStudy.name">
+                      <div class="field timeTableField">
+                        <apexchart
+                          type="bar"
+                          height="350"
+                          :options="chartOptions"
+                          :series="developmentSeriesByCaseStudy(caseStudy.name, index)"
+                        />
+                      </div>
+                    </vs-tab>
+                  </div>
+                </vs-tabs>
+            </div>
           </div>
-          <div class="divider"></div>
         </div>
       </div>
     </div>
@@ -497,8 +513,7 @@
                     <div class="con-tab-ejemplo">
                       <apexchart
                         type="bar"
-                        height="350"
-                        :options="surveyQueChartOptions(600)"
+                        height="350"                        :options="surveyQueChartOptions(600)"
                         :series="surveyQueChartSeries(600)"
                       />
                     </div>
@@ -601,7 +616,7 @@ export default {
       },
       withoutChartOptions: {
         title:{
-          text: "Without Agent DSML"
+          text: "Without MAS DSML"
         },
         chart: {
           stacked: false,
@@ -651,9 +666,6 @@ export default {
         },
       },
       chartOptions: {
-        title:{
-          text: "With Agent DSML"
-        },
         chart: {
           stacked: false,
           toolbar: {
@@ -677,7 +689,7 @@ export default {
         ],
         plotOptions: {
           bar: {
-            horizontal: true
+            vertical: true
           }
         },
 
@@ -689,6 +701,9 @@ export default {
             "Implementation",
             "Error Testing"
           ],
+        },
+        yaxis: {
+          type: "number",
           title: {
             text: "Minutes"
           }
@@ -700,6 +715,60 @@ export default {
         fill: {
           opacity: 1
         },
+      },
+      allCasesChartOptions: {
+        chart: {
+          stacked: false,
+          toolbar: {
+            show: true
+          },
+          zoom: {
+            enabled: true
+          }
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: "bottom",
+                offsetX: -10,
+                offsetY: 0
+              }
+            }
+          }
+        ],
+        plotOptions: {
+          bar: {
+            vertical: true
+          }
+        },
+
+        xaxis: {
+          type: "string",
+          categories: [
+            "Problem Analysis",
+            "Modelling & Design",
+            "Implementation",
+            "Error Testing"
+          ],
+        },
+        yaxis: {
+          type: "number",
+          title: {
+            text: "Minutes"
+          }
+        },
+        legend: {
+          position: "right",
+          offsetY: 40
+        },
+        fill: {
+          opacity: 1
+        },
+        title:{
+            text: "All Case Studies - Average Times Chart"
+          }
       },
       radarOptions: {
         labels: [
@@ -767,7 +836,7 @@ export default {
   },
   created() {
     let ref = db.collection("languages").where("id", "==", this.id);
-    let famlRef = db.collection("languages").where("is_active", "==", false);
+    let famlRef = db.collection("languages").where("isFaml", "==", true);
     let normsRef = db
       .collection("quality_norms")
       .where("is_active", "==", true);
@@ -949,6 +1018,11 @@ export default {
       var implementation = 0;
       var errorDetection = 0;
 
+      var woProblemAnalysis = 0;
+      var woModelling = 0;
+      var woImplementation = 0;
+      var woErrorDetection = 0;
+
       for (let index = 0; index < this.language.caseStudies.length; index++) {
         (problemAnalysis += this.language.caseStudies[index].developmentTimes
           .times.problemAnalysis),
@@ -957,19 +1031,17 @@ export default {
           (implementation += this.language.caseStudies[index].developmentTimes
             .times.implementation),
           (errorDetection += this.language.caseStudies[index].developmentTimes
-            .times.errorDetection),
-          (developmentSeries[index] = {
-            name: this.language.caseStudies[index].name,
-            data: [
-              this.language.caseStudies[index].developmentTimes.times
-                .problemAnalysis,
-              this.language.caseStudies[index].developmentTimes.times.modelling,
-              this.language.caseStudies[index].developmentTimes.times
-                .implementation,
-              this.language.caseStudies[index].developmentTimes.times
-                .errorDetection
-            ]
-          });
+            .times.errorDetection);
+
+        (woProblemAnalysis += this.language.caseStudies[index].withoutDevelopmentTimes
+          .times.problemAnalysis),
+          (woModelling += this.language.caseStudies[index].withoutDevelopmentTimes.times
+            .modelling),
+          (woImplementation += this.language.caseStudies[index].withoutDevelopmentTimes
+            .times.implementation),
+          (woErrorDetection += this.language.caseStudies[index].withoutDevelopmentTimes
+            .times.errorDetection);
+          
       }
 
       var divider = 0;
@@ -978,8 +1050,8 @@ export default {
           divider++;
       }
 
-      developmentSeries[this.language.caseStudies.length] = {
-        name: "All Case Studies",
+      developmentSeries[0] = {
+        name: "With "+ this.language.name,
         data: [
           (problemAnalysis / divider).toFixed(2),
           (modelling / divider).toFixed(2),
@@ -987,6 +1059,69 @@ export default {
           (errorDetection / divider).toFixed(2)
         ]
       };
+
+      developmentSeries[1] = {
+        name: "Without "+ this.language.name,
+        data: [
+          (woProblemAnalysis / divider).toFixed(2),
+          (woModelling / divider).toFixed(2),
+          (woImplementation / divider).toFixed(2),
+          (woErrorDetection / divider).toFixed(2)
+        ]
+      };
+      return developmentSeries;
+    },
+    
+    AllDevelopmentSeries() {
+      var developmentSeries = [];
+      var problemAnalysis = 0;
+      var modelling = 0;
+      var implementation = 0;
+      var errorDetection = 0;
+
+      var woProblemAnalysis = 0;
+      var woModelling = 0;
+      var woImplementation = 0;
+      var woErrorDetection = 0;
+
+      for (let index = 0; index < this.language.caseStudies.length; index++) {
+        (problemAnalysis += this.language.caseStudies[index].developmentTimes
+          .times.problemAnalysis),
+          (modelling += this.language.caseStudies[index].developmentTimes.times
+            .modelling),
+          (implementation += this.language.caseStudies[index].developmentTimes
+            .times.implementation),
+          (errorDetection += this.language.caseStudies[index].developmentTimes
+            .times.errorDetection);
+
+        (woProblemAnalysis += this.language.caseStudies[index].withoutDevelopmentTimes
+          .times.problemAnalysis),
+          (woModelling += this.language.caseStudies[index].withoutDevelopmentTimes.times
+            .modelling),
+          (woImplementation += this.language.caseStudies[index].withoutDevelopmentTimes
+            .times.implementation),
+          (woErrorDetection += this.language.caseStudies[index].withoutDevelopmentTimes
+            .times.errorDetection);
+          
+      }
+
+      var divider = 0;
+      for (let k = 0; k < this.language.caseStudies.length; k++) {
+        if (this.language.caseStudies[k].developmentTimes.userCount != 0)
+          divider++;
+      }
+
+
+      var total = ((problemAnalysis / divider) + (modelling / divider) + (implementation / divider) + (errorDetection / divider)).toFixed(2);
+      var woTotal = ((woProblemAnalysis / divider) + (woModelling / divider) + (woImplementation / divider) + (woErrorDetection / divider)).toFixed(2);
+
+      developmentSeries = [
+        {
+          name: "Average Total Time (minutes)",
+          data: [total, woTotal]
+        }
+      ]
+
       return developmentSeries;
     },
 
@@ -1074,6 +1209,27 @@ export default {
 
       return returnData;
     },
+
+    AllChartOptions() {
+      return {
+          plotOptions: {
+            bar: {
+              horizontal: true,
+            }
+          },
+          xaxis: {
+            categories: ['With MAS DSML', 'Without MAS DSML'],
+            type: "number",
+            title: {
+              text: "Minutes"
+            }
+          },
+          title:{
+            text: "All Case Studies - Average Total Times"
+          }
+      }
+    },
+
     modelSeries() {
       var returnData = [];
       var totalData = [];
@@ -1282,7 +1438,7 @@ export default {
         }
       };
     },
-
+    
     surveyQueChartSeries(index) {
       var loop;
       var position;
@@ -1376,7 +1532,53 @@ export default {
         averageScore = this.language.surveyAverageScores[6];
       }
       return averageScore.toFixed(2);
-    }
+    },
+
+    developmentSeriesByCaseStudy(caseStudyName, index) {
+      var developmentSeries = [];
+      var problemAnalysis = 0;
+      var modelling = 0;
+      var implementation = 0;
+      var errorDetection = 0;
+
+        (problemAnalysis += this.language.caseStudies[index].developmentTimes
+          .times.problemAnalysis),
+          (modelling += this.language.caseStudies[index].developmentTimes.times
+            .modelling),
+          (implementation += this.language.caseStudies[index].developmentTimes
+            .times.implementation),
+          (errorDetection += this.language.caseStudies[index].developmentTimes
+            .times.errorDetection),
+          (developmentSeries[0] = {
+            name: "With "+ this.language.name,
+            data: [
+              this.language.caseStudies[index].developmentTimes.times
+                .problemAnalysis,
+              this.language.caseStudies[index].developmentTimes.times.modelling,
+              this.language.caseStudies[index].developmentTimes.times
+                .implementation,
+              this.language.caseStudies[index].developmentTimes.times
+                .errorDetection
+            ]
+          });
+
+          (developmentSeries[1] = {
+            name: "Without "+ this.language.name,
+            data: [
+             this.language.caseStudies[index].withoutDevelopmentTimes.times
+                .problemAnalysis,
+              this.language.caseStudies[index].withoutDevelopmentTimes.times.modelling,
+              this.language.caseStudies[index].withoutDevelopmentTimes.times
+                .implementation,
+              this.language.caseStudies[index].withoutDevelopmentTimes.times
+                .errorDetection 
+              ]
+          });
+
+      return developmentSeries;
+    },
+
+
   }
 };
 </script>

@@ -10,7 +10,7 @@
             <ul id="nav-mobile" class="right">
               <li>
                 <router-link to="/add-language">
-                    <span>Add New Agent DSML</span>
+                    <span>Add New MAS DSML</span>
                 </router-link>
               </li>
             </ul>
