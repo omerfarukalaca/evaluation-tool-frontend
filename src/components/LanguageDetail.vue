@@ -574,6 +574,7 @@
                 <apexchart
                   type="bar"
                   height="350"
+                  weight="1000"
                   :options="generationOptions"
                   :series="generationSeries"
                 />
@@ -612,7 +613,7 @@ export default {
       faml: null,
       norms: null,
       benchmarkingOptions: {
-        labels: ["Supported", "Not Supported"]
+        labels: ["Not Supported", "Supported"]
       },
       withoutChartOptions: {
         title:{
@@ -1007,8 +1008,8 @@ export default {
 
     benchmarkingSeries() {
       return [
-        this.language.famlComparison.averagePer,
-        100 - this.language.famlComparison.averagePer
+        100 - this.language.famlComparison.averagePer,
+        this.language.famlComparison.averagePer
       ];
     },
     developmentSeries() {
@@ -1202,7 +1203,7 @@ export default {
           data: generatedArray
         },
         {
-          name: "Hard Coded by Developer",
+          name: "Manually Added Code",
           data: hardCodedArray
         }
       ];
@@ -1377,7 +1378,7 @@ export default {
           }
         },
         title: {
-          text: "Sub Characteristic Perspective",
+          text: "Quality Measure Perspective",
           align: "left"
         },
         annotations: {
@@ -1421,7 +1422,7 @@ export default {
           type: "string",
           categories: activeCategories,
           title: {
-            text: "Sub Characteristic"
+            text: "Quality Measure"
           }
         },
         yaxis: {
