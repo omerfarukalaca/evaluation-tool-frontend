@@ -772,6 +772,36 @@ export default {
           }
       },
       radarOptions: {
+        yaxis: {
+          min:0,
+          max:5,
+          tickAmount: 5,
+        },
+        dataLabels: {
+                style: {
+              fontSize: '12px',
+              fontWeight: 'bold',
+          },
+        },
+        markers: {
+          size: [4,8],
+          colors: ['#fff'],
+          strokeColor: '#FF4560',
+          strokeWidth: 2,
+          shape:'square'
+        },
+        tooltip: {
+          y: {
+            formatter: function(val) {
+              return val
+            }
+          }
+        },
+        xaxis: {
+          style: {
+              fontSize: "10px"
+          },
+        },
         labels: [
           "Functional Suitability",
           "Usability",
@@ -779,7 +809,19 @@ export default {
           "Expressiveness",
           "Compatibility",
           "MAS Development"
-        ]
+        ],
+        plotOptions: {
+          radar: {
+            size: 140,
+            polygons: {
+              connectorColors: '#b4b2b2',
+              strokeColors: '#b4b2b2',
+              fill: {
+              colors: ['#f8f8f8', '#fff']
+          }
+            }
+          }
+        },
       },
       surveyChartOptions: {
         chart: {
