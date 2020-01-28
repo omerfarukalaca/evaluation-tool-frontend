@@ -283,7 +283,7 @@
           <div class="row">
             <div class="col s6">
               <div class="field averageSurvey">
-                <apexchart type="radar" height="400" :options="radarOptions" :series="radarSeries" />
+                <apexchart type="radar" height=400 width="460" :options="radarOptions" :series="radarSeries" />
               </div>
             </div>
             <div class="col s6">
@@ -693,7 +693,6 @@ export default {
             vertical: true
           }
         },
-
         xaxis: {
           type: "string",
           categories: [
@@ -707,6 +706,9 @@ export default {
           type: "number",
           title: {
             text: "Minutes"
+          },  
+          labels:{
+            formatter: (value) => { return Math.round(value)},
           }
         },
         legend: {
@@ -758,7 +760,10 @@ export default {
           type: "number",
           title: {
             text: "Minutes"
-          }
+          },
+          labels:{
+            formatter: (value) => { return Math.round(value)},
+          }  
         },
         legend: {
           position: "right",
@@ -776,11 +781,15 @@ export default {
           min:0,
           max:5,
           tickAmount: 5,
+            labels:{
+              formatter: (value) => { return Math.round(value).toFixed(2)},
+            }
         },
         dataLabels: {
                 style: {
               fontSize: '12px',
               fontWeight: 'bold',
+              colors: ['#333333']
           },
         },
         markers: {
@@ -865,6 +874,9 @@ export default {
         yaxis: {
           title: {
             text: "Number of Answers"
+        },
+        labels:{
+            formatter: (value) => { return Math.round(value);},
           }
         },
         legend: {
@@ -1269,7 +1281,7 @@ export default {
           },
           title:{
             text: "All Case Studies - Average Total Times"
-          }
+          },
       }
     },
 
@@ -1470,6 +1482,12 @@ export default {
         yaxis: {
           title: {
             text: "Average Score"
+          },
+          min:0,
+          max:5,
+          tickAmount: 5,
+          labels:{
+            formatter: (value) => { return Math.round(value);},
           }
         },
         legend: {
